@@ -1,8 +1,8 @@
-<?php 
+<?php
 $titre = 'Marmiton';
-echo " TEST acceuil"; 
+echo " TEST acceuil";
 
-ob_start(); 
+ob_start();
 ?>
 <h1>Liste des recettes</h1>
 
@@ -13,14 +13,14 @@ ob_start();
                 <h1 class="titreRecette"><?= $recette['titre'] ?></h1>
             </a>
             <h3><?= $recette['description'] ?></h3>
-            <time><?= $recette['date_creation'] ?></time>, 
+            <time><?= $recette['date_creation'] ?></time>,
             par utilisateur #<?= $recette['utilisateur_id'] ?>
         </header>
     </article>
     <hr />
 <?php endforeach; ?>
 
-<?php 
-$contenu = ob_get_clean(); 
-// require 'gabarit.php'; 
+<?php
+$contenu = ob_get_clean();
+require 'gabarit.php';
 ?>
