@@ -31,3 +31,23 @@ function getIngredients($idRecette){
     $ingredients->execute(array($idRecette));
     return $ingredients;
 }
+
+function getIngredient($id){
+    $bd = getBd();
+    $ingredient = $bd->prepare('select * from ingredients'
+            . ' where id = ?');
+    $ingredient->execute(array($id));
+    if ($ingredient->rowCount() == 1)
+        return $ingredient->fetch();
+    else
+        throw new Exception("Aucun ingredient ne correspond à l'identifiant '$id'");
+    return $ingredient;
+}
+
+function deleteIngredient($idIngredient){
+    $bd = getBd();
+    $result = $bdd->prepare('DELETE FROM ingredients'
+            . ' WHERE id = ?');
+    $result->execute(array($id));
+    return $result;
+}

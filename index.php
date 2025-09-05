@@ -1,11 +1,72 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require 'Modele.php';
+
+require 'Controleur/Controleur.php';
+
 try {
-    $recettes = getRecettes();
-    require 'vueAcceuil.php';
-}  catch (Exception $e) {
-    $msgErreur = $e->getMessage();
-    require 'vueErreur.php';
+    if (isset($_GET['action'])) {
+
+        // Afficher une recette
+        if ($_GET['action'] == 'recette') {
+            if (isset($_GET['id'])) {
+                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
+                $id = intval($_GET['id']);
+                if ($id != 0) {
+                    $erreur = isset($_GET['erreur']) ? $_GET['erreur'] : '';
+                    recette($id, $erreur);
+                } else
+                    throw new Exception("Identifiant d'article incorrect");
+            } else
+                throw new Exception("Aucun identifiant d'article");
+
+            // Ajouter un ingredient
+        } else if ($_GET['action'] == 'ingredient') {
+            if (isset($_POST['recette_id'])) {
+                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
+                $id = intval($_POST['recette_id']);
+                if ($id != 0) {
+                    // vérifier si l'article existe;
+                    $recette = getRecette($id);
+                    // Récupérer les données du formulaire
+                    $ingredient = $_POST;
+                    //Réaliser l'action commentaire du contrôleur
+                    commentaire($ingredient);
+                } else
+                    throw new Exception("Identifiant d'article incorrect");
+            } else
+                throw new Exception("Aucun identifiant d'article");
+
+            // Confirmer la suppression
+        } else if ($_GET['action'] == 'confirmer') {
+            if (isset($_GET['id'])) {
+                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
+                $id = intval($_GET['id']);
+                if ($id != 0) {
+                    confirmer($id);
+                } else
+                    throw new Exception("Identifiant de commentaire incorrect");
+            } else
+                throw new Exception("Aucun identifiant de commentaire");
+
+            // Supprimer un commentaire
+        } else if ($_GET['action'] == 'supprimer') {
+            if (isset($_POST['id'])) {
+                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
+                $id = intval($_POST['id']);
+                if ($id != 0) {
+                    supprimer($id);
+                } else
+                    throw new Exception("Identifiant de commentaire incorrect");
+            } else
+                throw new Exception("Aucun identifiant de commentaire");
+        } else {
+            // Action mal définie
+            throw new Exception("Action non valide");
+        }
+
+    // Action par défaut
+    } else {
+        accueil();  // action par défaut
+    }
+} catch (Exception $e) {
+    erreur($e->getMessage());
 }
