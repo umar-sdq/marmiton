@@ -1,6 +1,7 @@
+// index.php
 <?php
 
-require 'Controleur/Controleur.php';
+require 'Controlleur/Controlleur.php';
 
 try {
     if (isset($_GET['action'])) {
@@ -47,6 +48,16 @@ try {
             } else
                 throw new Exception("Aucun identifiant de commentaire");
 
+                } else if ($_GET['action'] == 'nouvelle') {
+            nouvelle();
+
+        } else if ($_GET['action'] == 'enregistrerRecette') {
+            // POST only
+            if (!empty($_POST['titre'])) {
+                enregistrerRecette($_POST);
+            } else {
+                throw new Exception("Titre requis");
+            }        
             // Supprimer un commentaire
         } else if ($_GET['action'] == 'supprimer') {
             if (isset($_POST['id'])) {

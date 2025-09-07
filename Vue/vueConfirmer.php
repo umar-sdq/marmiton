@@ -1,3 +1,4 @@
+// vueConfirmer.php
 <?php $titre = "Supprimer - " . $ingredient['titre']; ?>
 <?php ob_start(); ?>
 <article>

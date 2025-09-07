@@ -1,3 +1,4 @@
+// vueAccueil.php
 <?php
 $titre = 'Marmiton';
 echo " TEST acceuil";
@@ -9,7 +10,7 @@ ob_start();
 <?php foreach ($recettes as $recette): ?>
     <article>
         <header>
-            <a href="<?= "recette.php?id=" . $recette['id'] ?>">
+            <a href="<?= "index.php?action=recette&id=" . $recette['id'] ?>">
                 <h1 class="titreRecette"><?= $recette['titre'] ?></h1>
             </a>
             <h3><?= $recette['description'] ?></h3>

@@ -1,3 +1,4 @@
+// Modele.php
 <?php
 
 function getBd() {
@@ -51,3 +52,14 @@ function deleteIngredient($idIngredient){
     $result->execute(array($id));
     return $result;
 }
+function setRecette($data) {
+    $bd = getBd();
+    $sql = "INSERT INTO recettes(titre, description, date_creation, utilisateur_id) 
+            VALUES ('" . addslashes($data['titre']) . "', 
+                    '" . addslashes($data['description']) . "', 
+                    NOW(), 
+                    " . intval($data['utilisateur_id'] ?? 1) . ")";
+    $bd->exec($sql);
+    return $bd->lastInsertId();
+}
+
