@@ -11,7 +11,7 @@ function accueil() {
 // Affiche les détails sur un article
 function recette($id, $erreur) {
     $recette = getRecette($id);
-    $ingredient = getIngredient($id);
+    $ingredients = getIngredients($id);
     require 'Vue/vueRecette.php';
 }
 
@@ -56,4 +56,10 @@ function supprimer($id) {
 // Affiche une erreur
 function erreur($msgErreur) {
     require 'Vue/vueErreur.php';
+}
+
+function carteRecette($id) {
+    $recette = getRecette($id);
+    $ingredients = getIngredients($id);
+    require 'Vue/vueCarteRecette.php';
 }

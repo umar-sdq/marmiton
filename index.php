@@ -30,7 +30,7 @@ try {
                     // Récupérer les données du formulaire
                     $ingredient = $_POST;
                     //Réaliser l'action commentaire du contrôleur
-                    commentaire($ingredient);
+                    ingredient($ingredient);
                 } else
                     throw new Exception("Identifiant d'article incorrect");
             } else
@@ -59,6 +59,16 @@ try {
                 throw new Exception("Titre requis");
             }        
             // Supprimer un commentaire
+
+        } else if ($_GET['action'] == 'carteRecette') {
+    if (isset($_GET['id'])) {
+        $id = intval($_GET['id']);
+        if ($id != 0) {
+            carteRecette($id);
+        } else {
+            throw new Exception("Identifiant de recette incorrect");
+        }
+    }    
         } else if ($_GET['action'] == 'supprimer') {
             if (isset($_POST['id'])) {
                 // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec

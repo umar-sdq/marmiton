@@ -44,6 +44,16 @@ function getIngredient($id){
         throw new Exception("Aucun ingredient ne correspond à l'identifiant '$id'");
     return $ingredient;
 }
+function setIngredient($data) {
+    $bd = getBd();
+    $nom = addslashes($data['nom']);
+    $recetteId = intval($data['recette_id']);
+    $liste = addslashes($data['liste_ingredients']);
+
+    $sql = "INSERT INTO ingredients(nom, recette_id, liste_ingredients) 
+            VALUES ('$nom', $recetteId, '$liste')";
+    $bd->exec($sql);
+}
 
 function deleteIngredient($idIngredient){
     $bd = getBd();
