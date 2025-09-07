@@ -1,4 +1,3 @@
-// index.php
 <?php
 
 require 'Controlleur/Controlleur.php';
@@ -9,85 +8,108 @@ try {
         // Afficher une recette
         if ($_GET['action'] == 'recette') {
             if (isset($_GET['id'])) {
-                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
                 $id = intval($_GET['id']);
                 if ($id != 0) {
                     $erreur = isset($_GET['erreur']) ? $_GET['erreur'] : '';
                     recette($id, $erreur);
-                } else
-                    throw new Exception("Identifiant d'article incorrect");
-            } else
-                throw new Exception("Aucun identifiant d'article");
+                } else {
+                    throw new Exception("Identifiant de recette incorrect");
+                }
+            } else {
+                throw new Exception("Aucun identifiant de recette");
+            }
 
-            // Ajouter un ingredient
+        // Ajouter un ingrédient
         } else if ($_GET['action'] == 'ingredient') {
             if (isset($_POST['recette_id'])) {
-                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
                 $id = intval($_POST['recette_id']);
                 if ($id != 0) {
-                    // vérifier si l'article existe;
-                    $recette = getRecette($id);
-                    // Récupérer les données du formulaire
+                    $recette = getRecette($id); // vérifie que la recette existe
                     $ingredient = $_POST;
-                    //Réaliser l'action commentaire du contrôleur
                     ingredient($ingredient);
-                } else
-                    throw new Exception("Identifiant d'article incorrect");
-            } else
-                throw new Exception("Aucun identifiant d'article");
+                } else {
+                    throw new Exception("Identifiant de recette incorrect");
+                }
+            } else {
+                throw new Exception("Aucun identifiant de recette");
+            }
 
-            // Confirmer la suppression
+        // Confirmer la suppression d’un ingrédient
         } else if ($_GET['action'] == 'confirmer') {
             if (isset($_GET['id'])) {
-                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
                 $id = intval($_GET['id']);
                 if ($id != 0) {
                     confirmer($id);
-                } else
-                    throw new Exception("Identifiant de commentaire incorrect");
-            } else
-                throw new Exception("Aucun identifiant de commentaire");
+                } else {
+                    throw new Exception("Identifiant d'ingrédient incorrect");
+                }
+            } else {
+                throw new Exception("Aucun identifiant d'ingrédient");
+            }
 
-                } else if ($_GET['action'] == 'nouvelle') {
+        // Nouvelle recette (formulaire vide)
+        } else if ($_GET['action'] == 'nouvelle') {
             nouvelle();
 
+        // Enregistrer une recette (INSERT)
         } else if ($_GET['action'] == 'enregistrerRecette') {
-            // POST only
             if (!empty($_POST['titre'])) {
                 enregistrerRecette($_POST);
             } else {
                 throw new Exception("Titre requis");
-            }        
-            // Supprimer un commentaire
+            }
 
+        // Afficher une carte recette (vue détaillée)
         } else if ($_GET['action'] == 'carteRecette') {
-    if (isset($_GET['id'])) {
-        $id = intval($_GET['id']);
-        if ($id != 0) {
-            carteRecette($id);
-        } else {
-            throw new Exception("Identifiant de recette incorrect");
-        }
-    }    
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                if ($id != 0) {
+                    carteRecette($id);
+                } else {
+                    throw new Exception("Identifiant de recette incorrect");
+                }
+            } else {
+                throw new Exception("Aucun identifiant de recette");
+            }
+
+        // Supprimer une recette
+        } else if ($_GET['action'] == 'deleteRecette') {
+            if (isset($_POST['id'])) {
+                $id = intval($_POST['id']);
+                if ($id != 0) {
+                    deleteRecette($id);
+                    header('Location: index.php');
+                    exit;
+                } else {
+                    throw new Exception("Identifiant de recette incorrect");
+                }
+            } else {
+                throw new Exception("Aucun identifiant de recette");
+            }
+
+        // Supprimer un ingrédient
         } else if ($_GET['action'] == 'supprimer') {
             if (isset($_POST['id'])) {
-                // intval renvoie la valeur numérique du paramètre ou 0 en cas d'échec
                 $id = intval($_POST['id']);
                 if ($id != 0) {
                     supprimer($id);
-                } else
-                    throw new Exception("Identifiant de commentaire incorrect");
-            } else
-                throw new Exception("Aucun identifiant de commentaire");
+                } else {
+                    throw new Exception("Identifiant d'ingrédient incorrect");
+                }
+            } else {
+                throw new Exception("Aucun identifiant d'ingrédient");
+            }
+
+        // Action inconnue
         } else {
-            // Action mal définie
             throw new Exception("Action non valide");
         }
 
-    // Action par défaut
+    // Action par défaut → accueil
     } else {
-        accueil();  // action par défaut
+        accueil();
     }
+
 } catch (Exception $e) {
     erreur($e->getMessage());
 }

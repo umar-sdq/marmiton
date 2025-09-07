@@ -63,3 +63,8 @@ function carteRecette($id) {
     $ingredients = getIngredients($id);
     require 'Vue/vueCarteRecette.php';
 }
+function deleteRecette($id) {
+    deleteRecetteById($id); 
+    header('Location: index.php');
+    exit;
+}

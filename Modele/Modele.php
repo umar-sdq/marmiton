@@ -72,4 +72,11 @@ function setRecette($data) {
     $bd->exec($sql);
     return $bd->lastInsertId();
 }
+function deleteRecetteById($id) {
+    $bd = getBd();
+    $id = intval($id);
+    $bd->exec("DELETE FROM ingredients WHERE recette_id=$id");
+    $bd->exec("DELETE FROM recettes WHERE id=$id");
+}
+
 
