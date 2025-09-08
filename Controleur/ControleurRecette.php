@@ -1,10 +1,9 @@
 <?php
-
 require_once 'Modele/Recette.php';
 require_once 'Modele/Ingredient.php';
 require_once 'Vue/Vue.php';
 
-class ControleurRecette{
+class ControleurRecette {
     private $recette;
     private $ingredient;
 
@@ -13,39 +12,71 @@ class ControleurRecette{
         $this->ingredient = new Ingredient();
     }
 
-    public function recettes() {
-        $recettes = $this->recette->getRecettes();
-        $vue = new Vue("Recettes");
-        $vue->generer(array('recettes' => $recettes));
-    }
+public function recettes() {
+    $recettes = $this->recette->getRecettes();
+    $vue = new Vue("Accueil");  // au lieu de "Recettes"
+    $vue->generer(['recettes' => $recettes]);
+}
 
-    public function recette($idRecette) {
+
+    // Détail d'une recette + formulaire édition
+    public function recette($idRecette, $erreur = null) {
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
         $vue = new Vue("Recette");
-        $vue->generer(array('recette' => $recette, 'ingredients' => $ingredients, 'erreur' => $erreur));
+        $vue->generer([
+            'recette'     => $recette,
+            'ingredients' => $ingredients,
+            'erreur'      => $erreur
+        ]);
     }
 
-    public function nouvelleRecette(){
-        $vue = new Vue("Ajouter")
-        $vue->generer();
+    // Formulaire d'ajout (réutilise vue Recette)
+    public function nouvelleRecette() {
+        $recette = [];
+        $ingredients = [];
+        $vue = new Vue("Recette");
+        $vue->generer([
+            'recette'     => $recette,
+            'ingredients' => $ingredients,
+            'erreur'      => null
+        ]);
     }
 
-    public function ajouter($recette){
+    // INSERT
+    public function ajouter($recette) {
         $this->recette->setRecette($recette);
-        $this->recettes();
+        header('Location: index.php'); // retour accueil
         exit;
     }
 
-    public function modifierRecette($idRecette){
+    // Formulaire de modification
+    public function modifierRecette($idRecette) {
         $recette = $this->recette->getRecette($idRecette);
-        $vue = new Vue("Modifier");
-        $vue->generer(array('recette' => $recette));
+        $ingredients = $this->ingredient->getIngredients($idRecette);
+        $vue = new Vue("Recette");
+        $vue->generer([
+            'recette'     => $recette,
+            'ingredients' => $ingredients,
+            'erreur'      => null
+        ]);
     }
 
-    public function miseAJourRecette($recette){
+    // UPDATE
+    public function miseAJourRecette($recette) {
         $this->recette->updateRecette($recette);
-        $this->recettes();
+        header('Location: index.php'); // retour accueil
+        exit;
     }
-    
+
+    public function carteRecette($idRecette) {
+        $recette = $this->recette->getRecette($idRecette);
+        $ingredients = $this->ingredient->getIngredients($idRecette);
+        $vue = new Vue("CarteRecette"); // charge Vue/vueCarteRecette.php
+        $vue->generer([
+            'recette'     => $recette,
+            'ingredients' => $ingredients,
+            'erreur'      => null
+        ]);
+    }
 }
