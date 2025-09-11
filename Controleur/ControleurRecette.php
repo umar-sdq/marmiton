@@ -1,9 +1,9 @@
 <?php
+require_once 'Framework/Controleur.php';
 require_once 'Modele/Recette.php';
 require_once 'Modele/Ingredient.php';
-require_once 'Vue/Vue.php';
 
-class ControleurRecette {
+class ControleurRecette extends Controleur {
     private $recette;
     private $ingredient;
 
@@ -12,71 +12,85 @@ class ControleurRecette {
         $this->ingredient = new Ingredient();
     }
 
-public function recettes() {
-    $recettes = $this->recette->getRecettes();
-    $vue = new Vue("Accueil");  // au lieu de "Recettes"
-    $vue->generer(['recettes' => $recettes]);
-}
+    public function index() {
+        $recettes = $this->recette->getRecettes();
+        $this->genererVue(['recettes' => $recettes]);
+    }
 
+    public function lire() {
+        $idRecette = $this->requete->getParametreId("id");
+        $recette = $this->recette->getRecette($idRecette);
+        $ingredients = $this->ingredient->getIngredients($idRecette);
+        $erreur = $this->requete->getSession()->existeAttribut("erreur") ? $this->requete->getSession()->getAttribut("erreur") : null;
 
-    // Détail d'une recette + formulaire édition
+        $this->genererVue([
+            'recette' => $recette,
+            'ingredients' => $ingredients,
+            'erreur' => $erreur
+        ]);
+    }
+
     public function recette($idRecette, $erreur = null) {
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
-        $vue = new Vue("Recette");
-        $vue->generer([
-            'recette'     => $recette,
+        $this->genererVue([
+            'recette' => $recette,
             'ingredients' => $ingredients,
-            'erreur'      => $erreur
+            'erreur' => $erreur
         ]);
     }
 
-    // Formulaire d'ajout (réutilise vue Recette)
     public function nouvelleRecette() {
-        $recette = [];
-        $ingredients = [];
-        $vue = new Vue("Recette");
-        $vue->generer([
-            'recette'     => $recette,
-            'ingredients' => $ingredients,
-            'erreur'      => null
+        $this->genererVue([
+            'recette' => [],
+            'ingredients' => [],
+            'erreur' => null
         ]);
     }
 
-    // INSERT
-    public function ajouter($recette) {
-        $this->recette->setRecette($recette);
-        header('Location: index.php'); // retour accueil
-        exit;
+    public function nouvelle() {
+        $this->genererVue([
+            'recette' => [],
+            'ingredients' => [],
+            'erreur' => null
+        ]);
     }
 
-    // Formulaire de modification
+    public function ajouter() {
+        $recette = $this->requete->getParametre('recette');
+        $this->recette->setRecette($recette);
+        $this->rediriger("Recettes");
+    }
+
     public function modifierRecette($idRecette) {
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
-        $vue = new Vue("Recette");
-        $vue->generer([
-            'recette'     => $recette,
+        $this->genererVue([
+            'recette' => $recette,
             'ingredients' => $ingredients,
-            'erreur'      => null
+            'erreur' => null
         ]);
     }
 
-    // UPDATE
-    public function miseAJourRecette($recette) {
+    public function miseAJourRecette() {
+        $recette = $this->requete->getParametre('recette');
         $this->recette->updateRecette($recette);
-        header('Location: index.php'); // retour accueil
-        exit;
+        $this->rediriger("Recettes");
     }
 
     public function carteRecette($idRecette) {
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
-        $vue = new Vue("CarteRecette"); // charge Vue/vueCarteRecette.php
-        $vue->generer([
-            'recette'     => $recette,
+        $this->genererVue([
+            'recette' => $recette,
             'ingredients' => $ingredients,
-            'erreur'      => null
+            'erreur' => null
         ]);
+    }
+
+    public function supprimer() {
+        $idRecette = $this->requete->getParametreId('id');
+        $this->recette->supprimerRecette($idRecette);
+        $this->rediriger("Recettes");
     }
 }
