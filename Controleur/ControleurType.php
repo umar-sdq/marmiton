@@ -12,6 +12,7 @@ class ControleurType {
 
 // recherche et retourne les types pour l'autocomplete
     public function quelsTypes($term) {
+        $term = $this->requete->getParametre('term');
         echo $this->type->searchType($term);
     }
 

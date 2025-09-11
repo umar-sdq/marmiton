@@ -1,48 +1,51 @@
 <?php
+require_once 'Framework/Controleur.php';
 require_once 'Modele/Ingredient.php';
-require_once 'Vue/Vue.php';
 
-class ControleurIngredient {
+class ControleurIngredient extends Controleur {
     private $ingredient;
 
     public function __construct() {
         $this->ingredient = new Ingredient();
     }
 
-    // Liste des ingrédients (si besoin)
-    public function ingredients($idRecette) {
+       public function index() {
+        // On peut récupérer un paramètre idRecette depuis la requête
+        $idRecette = $this->requete->getParametreId("idRecette");
         $ingredients = $this->ingredient->getIngredients($idRecette);
-        $vue = new Vue("Ingredient");
-        $vue->generer(['ingredients' => $ingredients]);
+        $this->genererVue(['ingredients' => $ingredients]);
     }
 
-    // Ajouter un ingrédient
-    public function ajouter($data) {
-        $recette_id = (int)($data['recette_id'] ?? 0);
-        $nom        = trim($data['nom'] ?? '');
 
-        if ($recette_id <= 0 || $nom === '') {
+    // Ajouter un ingrédient
+    public function ajouter() {
+        $data = [
+            'recette_id' => (int) $this->requete->getParametre('recette_id'),
+            'nom' => trim($this->requete->getParametre('nom'))
+        ];
+
+        // Validation basique
+        if ($data['recette_id'] <= 0 || $data['nom'] === '') {
             throw new Exception("Données ingrédient invalides");
         }
 
         $this->ingredient->setIngredient($data);
-
-        // Retourner sur la fiche recette
-        header('Location: index.php?action=carteRecette&id=' . $recette_id);
-        exit;
+        // Rediriger vers la fiche recette correspondante
+        $this->rediriger("Recette", "carteRecette/" . $data['recette_id']);
     }
 
     // Confirmer la suppression
-    public function confirmer($id) {
+    public function confirmer() {
+        $id = $this->requete->getParametreId("id");
         $ingredient = $this->ingredient->getIngredient($id);
-        $vue = new Vue("Confirmer");
-        $vue->generer(['ingredient' => $ingredient]);
+        $this->genererVue(['ingredient' => $ingredient]);
     }
 
     // Supprimer
-    public function supprimer($id, $recette_id) {
+    public function supprimer() {
+        $id = $this->requete->getParametreId("id");
+        $recette_id = $this->requete->getParametreId("recette_id");
         $this->ingredient->deleteIngredient($id);
-        header('Location: index.php?action=carteRecette&id=' . $recette_id);
-        exit;
+        $this->rediriger("Recette", "carteRecette/" . $recette_id);
     }
 }
