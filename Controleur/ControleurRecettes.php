@@ -2,8 +2,9 @@
 require_once 'Framework/Controleur.php';
 require_once 'Modele/Recette.php';
 require_once 'Modele/Ingredient.php';
+require_once 'Framework/Routeur.php';
 
-class ControleurRecette extends Controleur {
+class ControleurRecettes extends Controleur {
     private $recette;
     private $ingredient;
 
@@ -18,7 +19,7 @@ class ControleurRecette extends Controleur {
     }
 
     public function lire() {
-        $idRecette = $this->requete->getParametreId("id");
+        $idRecette = $this->requete->getParametreId('id');
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
         $erreur = $this->requete->getSession()->existeAttribut("erreur") ? $this->requete->getSession()->getAttribut("erreur") : null;
@@ -30,9 +31,12 @@ class ControleurRecette extends Controleur {
         ]);
     }
 
-    public function recette($idRecette, $erreur = null) {
+    public function recettes() {
+        $idRecette = $this->requete->getParametre("id");
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
+
+        
         $this->genererVue([
             'recette' => $recette,
             'ingredients' => $ingredients,
@@ -59,7 +63,7 @@ class ControleurRecette extends Controleur {
     public function ajouter() {
         $recette = $this->requete->getParametre('recette');
         $this->recette->setRecette($recette);
-        $this->rediriger("Recettes");
+        $this->rediriger("Recette");
     }
 
     public function modifierRecette($idRecette) {

@@ -1,6 +1,6 @@
 <?php
 
-require 'Controleur/Routeur.php';
+require 'Framework/Routeur.php';
 
 $routeur = new Routeur();
 $routeur->routerRequete();
