@@ -14,9 +14,9 @@ class ControleurRecettes extends Controleur {
     }
 
     public function index() {
-        $recettes = $this->recette->getRecettes();
-        $this->genererVue(['recettes' => $recettes]);
-    }
+    $recettes = $this->recette->getRecettes();
+    $this->genererVue(['recettes' => $recettes]);
+}
 
     public function lire() {
         $idRecette = $this->requete->getParametreId('id');
@@ -61,9 +61,14 @@ class ControleurRecettes extends Controleur {
     }
 
     public function ajouter() {
-        $recette = $this->requete->getParametre('recette');
+         $recette = [
+        'titre' => $this->requete->getParametre('titre'),
+        'description' => $this->requete->getParametre('description'),
+        'id' => $this->requete->existeParametre('id') ? $this->requete->getParametre('id') : null,
+        'utilisateur_id' => 1
+    ];
         $this->recette->setRecette($recette);
-        $this->rediriger("Recette");
+        $this->rediriger("Recettes");
     }
 
     public function modifierRecette($idRecette) {
@@ -82,15 +87,18 @@ class ControleurRecettes extends Controleur {
         $this->rediriger("Recettes");
     }
 
-    public function carteRecette($idRecette) {
-        $recette = $this->recette->getRecette($idRecette);
-        $ingredients = $this->ingredient->getIngredients($idRecette);
-        $this->genererVue([
-            'recette' => $recette,
-            'ingredients' => $ingredients,
-            'erreur' => null
-        ]);
-    }
+    public function carteRecette() {
+    $idRecette = $this->requete->getParametre('id');
+    $recette = $this->recette->getRecette($idRecette);
+    $ingredients = $this->ingredient->getIngredients($idRecette);
+
+    $this->genererVue([
+        'recette' => $recette,
+        'ingredients' => $ingredients,
+        'erreur' => null
+    ]);
+}
+
 
     public function supprimer() {
         $idRecette = $this->requete->getParametreId('id');

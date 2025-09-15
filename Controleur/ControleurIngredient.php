@@ -9,19 +9,20 @@ class ControleurIngredient extends Controleur {
         $this->ingredient = new Ingredient();
     }
 
-       public function index() {
-        // On peut récupérer un paramètre idRecette depuis la requête
+    // Afficher la liste des ingrédients d’une recette
+    public function index() {
         $idRecette = $this->requete->getParametreId("idRecette");
         $ingredients = $this->ingredient->getIngredients($idRecette);
+
         $this->genererVue(['ingredients' => $ingredients]);
     }
-
 
     // Ajouter un ingrédient
     public function ajouter() {
         $data = [
             'recette_id' => (int) $this->requete->getParametre('recette_id'),
-            'nom' => trim($this->requete->getParametre('nom'))
+            'nom' => trim($this->requete->getParametre('nom')),
+            'liste_ingredients' => trim($this->requete->getParametre('liste_ingredients'))
         ];
 
         // Validation basique
@@ -30,22 +31,25 @@ class ControleurIngredient extends Controleur {
         }
 
         $this->ingredient->setIngredient($data);
-        // Rediriger vers la fiche recette correspondante
-        $this->rediriger("Recette", "carteRecette/" . $data['recette_id']);
+
+        $this->rediriger("Recettes", "carteRecette", "id=" . $data['recette_id']);
     }
 
-    // Confirmer la suppression
+    // Confirmer la suppression d’un ingrédient
     public function confirmer() {
         $id = $this->requete->getParametreId("id");
         $ingredient = $this->ingredient->getIngredient($id);
+
         $this->genererVue(['ingredient' => $ingredient]);
     }
 
-    // Supprimer
+    // Supprimer un ingrédient
     public function supprimer() {
         $id = $this->requete->getParametreId("id");
         $recette_id = $this->requete->getParametreId("recette_id");
+
         $this->ingredient->deleteIngredient($id);
-        $this->rediriger("Recette", "carteRecette/" . $recette_id);
+
+        $this->rediriger("Recettes", "carteRecette", "id=" . $recette_id);
     }
 }

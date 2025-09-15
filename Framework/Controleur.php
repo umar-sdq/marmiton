@@ -73,19 +73,31 @@ abstract class Controleur {
     }
 
     /**
-     * Effectue une redirection vers un contrôleur et une action spécifiques
-     * 
-     * @param string $controleur Contrôleur
-     * @param type $action Action Action
-     */
-    protected function rediriger($controleur = null, $action = null) {
-        $racineWeb = Configuration::get("racineWeb", "/");
-        // Redirection vers l'URL /racine_site/controleur/action
-        if ($controleur != null) {
-            header("Location:" . $racineWeb . $controleur . "/" . $action);
-        } else {
-            header("Location:" . $racineWeb);
+ * Effectue une redirection vers un contrôleur et une action spécifiques
+ * 
+ * @param string $controleur Contrôleur
+ * @param string $action Action
+ * @param string $params Chaîne de paramètres supplémentaires (ex: "id=5&x=10")
+ */
+protected function rediriger($controleur = null, $action = null, $params = "") {
+    $racineWeb = Configuration::get("racineWeb", "/");
+    $url = $racineWeb . "index.php";
+
+    if ($controleur !== null) {
+        $url .= "?controleur=" . $controleur;
+
+        if ($action !== null) {
+            $url .= "&action=" . $action;
+        }
+
+        if (!empty($params)) {
+            $url .= "&" . $params;
         }
     }
+
+    header("Location: " . $url);
+    exit;
+}
+
 
 }
