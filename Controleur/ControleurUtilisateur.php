@@ -1,47 +1,48 @@
 <?php
-
 require_once 'Framework/Controleur.php';
 require_once 'Modele/Utilisateur.php';
 
-/**
- * Contrôleur gérant la connexion au site Marmiton
- */
-class ControleurUtilisateurs extends Controleur {
-
+class ControleurUtilisateurs extends Controleur
+{
     private $utilisateur;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->utilisateur = new Utilisateur();
     }
 
-    public function index() {
+    public function index()
+    {
         $erreur = $this->requete->getSession()->existeAttribut("erreur") ? $this->requete->getSession()->getAttribut("erreur") : '';
         $this->genererVue(['erreur' => $erreur]);
     }
 
-    public function connecter() {
+    public function connecter()
+    {
         if ($this->requete->existeParametre("email") && $this->requete->existeParametre("mdp")) {
-            $email = $this->requete->getParametre("email");
-            $mdp = $this->requete->getParametre("mdp");
+            $email = htmlspecialchars(trim($this->requete->getParametre("email")));
+            $mdp = htmlspecialchars(trim($this->requete->getParametre("mdp")));
             if ($this->utilisateur->connecter($email, $mdp)) {
                 $utilisateur = $this->utilisateur->getUtilisateur($email, $mdp);
-                $this->requete->getSession()->setAttribut("utilisateur", $utilisateur);
+                $this->requete->getSession()->setAttribut("idUtilisateur", $utilisateur['idUtilisateur']);
+                $this->requete->getSession()->setAttribut("email", $utilisateur['email']);
 
                 if ($this->requete->getSession()->existeAttribut('erreur')) {
                     $this->requete->getSession()->setAttribut('erreur', '');
                 }
-                $this->rediriger("Recettes");
+                $this->rediriger("recettes");
             } else {
-                $this->requete->getSession()->setAttribut('erreur', 'mdp');
-                $this->rediriger('Utilisateurs');
+                $this->requete->getSession()->setAttribut('erreur', 'Email ou mot de passe incorrect');
+                $this->rediriger('utilisateurs');
             }
         } else {
             throw new Exception("Action impossible : email ou mot de passe non défini");
         }
     }
 
-    public function deconnecter() {
+    public function deconnecter()
+    {
         $this->requete->getSession()->detruire();
-        $this->rediriger("");
+        $this->rediriger("accueil");
     }
 }
