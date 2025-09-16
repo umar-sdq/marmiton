@@ -11,7 +11,6 @@ ob_start();
     <article>
         <header>
             <a href="index.php?controleur=Recettes&action=carteRecette&id=<?= $recette['id'] ?>">
-                <h1 class="titreRecette"><?= $recette['titre'] ?></h1>
             </a>
             <h3><?= $recette['description'] ?></h3>
             <time><?= $recette['date_creation'] ?></time>,
