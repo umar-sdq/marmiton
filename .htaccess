@@ -1,8 +1,7 @@
 RewriteEngine On
+RewriteBase /Marmiton/
 
-# Ne pas réécrire si c’est un fichier ou un dossier physique
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Redirige /Controleur/Action/Id → index.php?controleur=xxx&action=yyy&id=zzz
 RewriteRule ^([a-zA-Z]*)/?([a-zA-Z]*)?/?([0-9]*)?/?$ index.php?controleur=$1&action=$2&id=$3 [NC,L]

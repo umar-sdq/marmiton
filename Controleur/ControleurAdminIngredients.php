@@ -6,8 +6,7 @@ require_once 'Modele/Recette.php';
 
 class ControleurAdminIngredients extends ControleurAdmin {
 
-    private $article;
-    private $commentaire;
+    
 
     private $ingredient;
     private $recette;

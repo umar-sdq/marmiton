@@ -11,7 +11,13 @@
 
 <body>
 
-    <button>Connexion</button>
+    <?php if (isset($utilisateur)) : ?>
+                    <h3>Bonjour <?= $utilisateur['nom'] ?>,
+                        <a href="Utilisateurs/deconnecter"><small>[Se déconnecter]</small></a>
+                    </h3>
+                <?php else : ?>
+                    <h3>[<a href="Utilisateurs/index">Se connecter</a>] <small>(admin/admin)</small></h3>
+                <?php endif; ?>
     
     <div id="global">
             <a href="index.php"><h1 id="titreMarmiton">Marmiton index</h1></a>

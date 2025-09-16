@@ -24,22 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 -- Structure de la table `utilisateurs`
 -- --------------------------------------------------------
+-- --------------------------------------------------------
+-- Structure de la table `utilisateurs`
+-- --------------------------------------------------------
+
 CREATE TABLE `utilisateurs` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nom` VARCHAR(255) DEFAULT NULL,
-  `email` VARCHAR(255) DEFAULT NULL,
+  `nom` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `identifiant` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `mot_de_passe` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `date_creation` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `niveau` ENUM('débutant','intermédiaire','expert') DEFAULT 'débutant',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Déchargement des données de la table `utilisateurs`
---
-INSERT INTO `utilisateurs` (`nom`, `email`, `niveau`) VALUES
-('umar', 'umarsdq06@gmail.com', 'intermédiaire'),
-('ashank', 'ashank@gmail.com', 'intermédiaire'),
-('charbel', 'charbel@gmail.com', 'intermédiaire');
+-- --------------------------------------------------------
+-- Données de la table `utilisateurs`
+-- --------------------------------------------------------
+INSERT INTO `utilisateurs` (`nom`, `identifiant`, `mot_de_passe`) VALUES
+('umar', 'umar', '1234'),
+('ashank', 'ashank', '1234'),
+('charbel', 'charbel', '1234');
 
 -- --------------------------------------------------------
 -- Structure de la table `recettes`
