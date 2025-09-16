@@ -60,7 +60,7 @@ class Recette extends Modele {
     }
 
     // Supprimer une recette + ses ingrédients (FK simple)
-    public function deleteRecetteById($id) {
+    public function supprimerRecette($id) {
         $id = (int)$id;
         if ($id <= 0) {
             throw new Exception("Identifiant de recette invalide");

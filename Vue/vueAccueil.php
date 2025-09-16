@@ -10,6 +10,7 @@ ob_start();
 <?php foreach ($recettes as $recette): ?>
     <article>
         <header>
+            
             <a href="index.php?controleur=Recettes&action=carteRecette&id=<?= $recette['id'] ?>">
             </a>
             <h3><?= $recette['description'] ?></h3>
