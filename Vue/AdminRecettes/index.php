@@ -2,7 +2,7 @@
 <?php ob_start(); ?>
 
 <a href="AdminRecettes/ajouter">
-    <h2 class="titrzeArticle">Ajouter une recette</h2>
+    <h2 class="titreArticle">Ajouter une recette</h2>
 </a>
 
 <h1>Liste des recettes</h1>

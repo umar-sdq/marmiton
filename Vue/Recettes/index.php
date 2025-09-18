@@ -7,7 +7,7 @@
     <?php foreach ($recettes as $recette): ?>
         <article>
             <header>
-                <a href="<?= Configuration::get("racineWeb") ?>index.php?controleur=Recettes&action=carteRecette&id=<?= $recette['id'] ?>">
+                
     <h2><?= htmlspecialchars($recette['titre']) ?></h2>
 </a>
 

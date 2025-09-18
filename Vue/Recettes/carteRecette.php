@@ -1,49 +1,23 @@
-<?php $titre = "Recette " . $recette['titre']; ob_start(); ?>
+<?php $titre = "Liste des recettes"; ?>
+<?php ob_start(); ?>
 
-<div class="card">
-  <h1><?= htmlspecialchars($recette['titre']) ?></h1>
-  <p><?= nl2br(htmlspecialchars($recette['description'])) ?></p>
-  <time><?= htmlspecialchars($recette['date_creation']) ?></time>,
-  par utilisateur #<?= htmlspecialchars($recette['utilisateur_id']) ?>
-</div>
+<h1>Liste des recettes</h1>
 
-<hr>
+<?php if (!empty($recettes)): ?>
+    <?php foreach ($recettes as $recette): ?>
+        <article>
+            <header>
+                <a href="<?= Configuration::get("racineWeb") ?>index.php?controleur=Recettes&action=carteRecette&id=<?= $recette['id'] ?>">
+                    <h2><?= htmlspecialchars($recette['titre']) ?></h2>
+                </a>
+                <p><?= nl2br(htmlspecialchars($recette['description'])) ?></p>
+            </header>
+        </article>
+        <hr/>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>Aucune recette trouvée.</p>
+<?php endif; ?>
 
-<h2>Ingrédients</h2>
-<ul>
-  <?php foreach ($ingredients as $ing): ?>
-    <li>
-      <strong><?= htmlspecialchars($ing['nom']) ?></strong>
-      <?php if (!empty($ing['liste_ingredients'])): ?>
-        – <?= htmlspecialchars($ing['liste_ingredients']) ?>
-      <?php endif; ?>
-
-      <form action="index.php?controleur=Ingredient&action=supprimer" method="post" style="display:inline">
-        <input type="hidden" name="id" value="<?= $ing['id'] ?>">
-        <input type="hidden" name="recette_id" value="<?= $recette['id'] ?>">
-        <button type="submit">Supprimer ingrédient</button>
-      </form>
-    </li>
-  <?php endforeach; ?>
-</ul>
-
-<h2>Ajouter un ingrédient</h2>
-<form action="index.php?controleur=Ingredient&action=ajouter" method="post">
-  <input type="hidden" name="recette_id" value="<?= $recette['id'] ?>">
-  <label>Nom</label>
-  <input type="text" name="nom" required>
-  <label>Détail</label>
-  <input type="text" name="liste_ingredients">
-  <button type="submit">Ajouter</button>
-</form>
-
-<hr>
-
-<!-- Formulaire suppression recette -->
-<form action="index.php?controleur=Recettes&action=supprimer" method="post" 
-      onsubmit="return confirm('Supprimer cette recette ?');">
-  <input type="hidden" name="id" value="<?= $recette['id'] ?>">
-  <button type="submit">Supprimer la recette</button>
-</form>
-
-<?php $contenu = ob_get_clean(); require 'Vue/gabarit.php'; ?>
+<?php $contenu = ob_get_clean(); ?>
+<?php require 'Vue/gabarit.php'; ?>
