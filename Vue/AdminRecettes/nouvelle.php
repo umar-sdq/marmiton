@@ -15,7 +15,8 @@
 <hr/>
 
 <h2><?= ($recette['id'] ?? 0) ? "Modifier la recette" : "Ajouter une recette" ?></h2>
-<form action="index.php?action=ajouter" method="post">
+<form action="index.php?controleur=AdminRecettes&action=ajouter" method="post">
+
   <p>
     <label for="titre">Titre</label>
     <input type="text" name="titre" id="titre" value="<?= htmlspecialchars($recette['titre'] ?? '') ?>"/>

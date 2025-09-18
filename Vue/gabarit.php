@@ -15,7 +15,8 @@
         <a href="Utilisateurs/deconnecter"><small>[Se déconnecter]</small></a>
         </h3>
     <?php else : ?>
-        <h3>[<a href="Utilisateurs/index">Se connecter</a>] <small>(admin/admin)</small></h3>
+       <a href="<?= Configuration::get("racineWeb") ?>index.php?controleur=Utilisateurs&action=index">Se connecter</a>
+
     <?php endif; ?>
     <div id="global">
 

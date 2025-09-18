@@ -1,4 +1,4 @@
-<?php $this->titre = "Le Blogue du prof - Connexion" ?>
+<?php $this->titre = "Connexion" ?>
 
 <p>Vous devez être en session pour accéder à cette zone.</p>
 

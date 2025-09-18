@@ -15,18 +15,34 @@ class ControleurAdminRecettes extends ControleurAdmin
         $this->ingredient = new Ingredient();
     }
 
-    // Affiche la liste des recettes
+    // Liste
     public function index()
     {
         $recettes = $this->recette->getRecettes();
-
-        // Passe l'état de connexion à la vue
         $estConnecte = $this->requete->getSession()->existeAttribut("utilisateur");
 
         $this->genererVue([
             'recettes' => $recettes,
             'estConnecte' => $estConnecte
         ]);
+    }
+
+    // Nouvelle (formulaire d’ajout admin)
+    public function nouvelle()
+    {
+        $this->genererVue();
+    }
+
+    // Ajout effectif
+    public function ajouter()
+    {
+        $recette = [
+            'titre' => $this->requete->getParametre('titre'),
+            'description' => $this->requete->getParametre('description'),
+            'utilisateur_id' => 1
+        ];
+        $this->recette->setRecette($recette);
+        $this->rediriger("AdminRecettes");
     }
 
     // Lire une recette
@@ -36,75 +52,25 @@ class ControleurAdminRecettes extends ControleurAdmin
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
 
-        $erreur = $this->requete->getSession()->existeAttribut("erreur")
-            ? $this->requete->getSession()->getAttribut("erreur")
-            : null;
-
-        $estConnecte = $this->requete->getSession()->existeAttribut("utilisateur");
-
         $this->genererVue([
             'recette' => $recette,
-            'ingredients' => $ingredients,
-            'erreur' => $erreur,
-            'estConnecte' => $estConnecte
+            'ingredients' => $ingredients
         ]);
     }
 
-    // Ajouter une recette
-    public function ajouter()
-    {
-        $recette = [
-            'titre' => $this->requete->getParametre('titre'),
-            'description' => $this->requete->getParametre('description'),
-            'id' => $this->requete->existeParametre('id') ? $this->requete->getParametre('id') : null,
-            'utilisateur_id' => 1
-        ];
-        $this->recette->setRecette($recette);
-        $this->rediriger("AdminRecettes");
-    }
-
-    // Modifier une recette
+    // Modifier
     public function modifierRecette($idRecette)
     {
         $recette = $this->recette->getRecette($idRecette);
         $ingredients = $this->ingredient->getIngredients($idRecette);
 
-        $estConnecte = $this->requete->getSession()->existeAttribut("utilisateur");
-
         $this->genererVue([
             'recette' => $recette,
-            'ingredients' => $ingredients,
-            'erreur' => null,
-            'estConnecte' => $estConnecte
+            'ingredients' => $ingredients
         ]);
     }
 
-    // Mettre à jour une recette
-    public function miseAJourRecette()
-    {
-        $recette = $this->requete->getParametre('recette');
-        $this->recette->updateRecette($recette);
-        $this->rediriger("AdminRecettes");
-    }
-
-    // Carte de recette (vue détaillée)
-    public function carteRecette()
-    {
-        $idRecette = $this->requete->getParametre('id');
-        $recette = $this->recette->getRecette($idRecette);
-        $ingredients = $this->ingredient->getIngredients($idRecette);
-
-        $estConnecte = $this->requete->getSession()->existeAttribut("utilisateur");
-
-        $this->genererVue([
-            'recette' => $recette,
-            'ingredients' => $ingredients,
-            'erreur' => null,
-            'estConnecte' => $estConnecte
-        ]);
-    }
-
-    // Supprimer une recette
+    // Supprimer
     public function supprimer()
     {
         $idRecette = $this->requete->getParametreId('id');

@@ -4,61 +4,94 @@ require_once 'Controleur/ControleurAdmin.php';
 require_once 'Modele/Ingredient.php';
 require_once 'Modele/Recette.php';
 
-class ControleurAdminIngredients extends ControleurAdmin {
-
-    
-
+class ControleurAdminIngredients extends ControleurAdmin
+{
     private $ingredient;
     private $recette;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->ingredient = new Ingredient();
         $this->recette = new Recette();
     }
 
-// Affiche la liste de tous les articles du blog
-    public function index() {
-        $ingredient = $this->ingredient->getIngredients();
-        $this->genererVue(['ingredients' => $ingredient]);
+    // Liste des ingrédients d’une recette
+    public function index()
+    {
+        $idRecette = $this->requete->getParametre("recette_id"); 
+        $ingredients = $this->ingredient->getIngredients($idRecette);
+
+        $this->genererVue([
+            'ingredients' => $ingredients,
+            'idRecette'   => $idRecette
+        ]);
     }
 
-// Affiche les détails sur un article
-    public function lire() {
+    // Lire un ingrédient précis
+    public function lire()
+    {
         $idIngredient = $this->requete->getParametreId("id");
-        $ingredient = $this->ingredient->getIngredient($idIngredient);
-        $erreur = $this->requete->getSession()->existeAttribut("erreur") ? $this->requete->getsession()->getAttribut("erreur") : '';
-        $recettes = $this->recette->getRecettes($idIngredient);
-        $this->genererVue(['ingredient' => $ingredient, 'recettes' => $recettes, 'erreur' => $erreur]);
+        $ingredient   = $this->ingredient->getIngredient($idIngredient);
+
+        $this->genererVue([
+            'ingredient' => $ingredient
+        ]);
     }
 
-    public function ajouter() {
-        $vue = new Vue("Ajouter");
+    // Affiche formulaire d’ajout (optionnel)
+    public function ajouter()
+    {
         $this->genererVue();
     }
 
     // Enregistre le nouvel ingrédient
-    public function nouveau() {
-        $ingredient['nom'] = $this->requete->getParametre('nom');
-        $ingredient['recette_id'] = $this->requete->getParametre('recette_id');
+    public function nouveau()
+    {
+        $ingredient['nom']               = $this->requete->getParametre('nom');
+        $ingredient['recette_id']        = $this->requete->getParametre('recette_id');
         $ingredient['liste_ingredients'] = $this->requete->getParametre('liste_ingredients');
+
         $this->ingredient->setIngredient($ingredient);
-        $this->executerAction('index');
+
+        // ✅ Redirection propre vers la recette
+        header("Location: index.php?controleur=AdminRecettes&action=lire&id=" . $ingredient['recette_id']);
+        exit();
     }
 
-   // Formulaire de modification
-    public function modifier() {
-        $id = $this->requete->getParametreId('id');
-        $ingredient = $this->ingredient->getIngredient($id);
+    // Formulaire de modification
+    public function modifier()
+    {
+        $idIngredient = $this->requete->getParametreId('id');
+        $ingredient   = $this->ingredient->getIngredient($idIngredient);
+
         $this->genererVue(['ingredient' => $ingredient]);
     }
 
     // Sauvegarde la mise à jour
-    public function miseAJour() {
-        $ingredient['id'] = $this->requete->getParametreId('id');
-        $ingredient['nom'] = $this->requete->getParametre('nom');
-        $ingredient['recette_id'] = $this->requete->getParametre('recette_id');
+    public function miseAJour()
+    {
+        $ingredient['id']                = $this->requete->getParametreId('id');
+        $ingredient['nom']               = $this->requete->getParametre('nom');
+        $ingredient['recette_id']        = $this->requete->getParametre('recette_id');
         $ingredient['liste_ingredients'] = $this->requete->getParametre('liste_ingredients');
+
         $this->ingredient->updateIngredient($ingredient);
-        $this->executerAction('index');
+
+        // ✅ Retour sur la recette
+        header("Location: index.php?controleur=AdminRecettes&action=lire&id=" . $ingredient['recette_id']);
+        exit();
+    }
+
+    // Supprimer un ingrédient
+    public function supprimer()
+    {
+        $idIngredient = $this->requete->getParametreId('id');
+        $recetteId    = $this->requete->getParametre('recette_id');
+
+        $this->ingredient->deleteIngredient($idIngredient);
+
+        // ✅ Retour sur la recette
+        header("Location: index.php?controleur=AdminRecettes&action=lire&id=" . $recetteId);
+        exit();
     }
 }

@@ -1,7 +1,7 @@
 <?php $titre = "Liste des recettes (Admin)"; ?>
 <?php ob_start(); ?>
 
-<a href="AdminRecettes/ajouter">
+<a href="index.php?controleur=AdminRecettes&action=nouvelle">
     <h2 class="titreArticle">Ajouter une recette</h2>
 </a>
 
@@ -11,7 +11,8 @@
     <?php foreach ($recettes as $recette): ?>
         <article>
             <header>
-                <a href="AdminRecettes/lire/<?= $recette['id'] ?>">
+                <!-- Lien vers la lecture d'une recette -->
+                <a href="index.php?controleur=AdminRecettes&action=lire&id=<?= $recette['id'] ?>">
                     <h2><?= htmlspecialchars($recette['titre']) ?></h2>
                 </a>
                 <time><?= htmlspecialchars($recette['date_creation']) ?></time>, 
@@ -19,7 +20,8 @@
             </header>
             <p><?= nl2br(htmlspecialchars($recette['description'])) ?></p>
             <p>
-                <a href="AdminRecettes/modifier/<?= $recette['id'] ?>">[modifier la recette]</a>
+                <!-- Lien vers la modification -->
+                <a href="index.php?controleur=AdminRecettes&action=modifier&id=<?= $recette['id'] ?>">[modifier la recette]</a>
             </p>
         </article>
         <hr/>

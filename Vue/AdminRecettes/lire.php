@@ -18,24 +18,27 @@
         – <?= htmlspecialchars($ing['liste_ingredients']) ?>
       <?php endif; ?>
 
-      <form action="index.php?controleur=Ingredient&action=supprimer" method="post" style="display:inline">
-        <input type="hidden" name="id" value="<?= $ing['id'] ?>">
-        <input type="hidden" name="recette_id" value="<?= $recette['id'] ?>">
-        <button type="submit">Supprimer ingrédient</button>
-      </form>
+      <form action="index.php?controleur=AdminIngredients&action=supprimer" method="post" style="display:inline">
+    <input type="hidden" name="id" value="<?= $ing['id'] ?>">
+    <input type="hidden" name="recette_id" value="<?= $recette['id'] ?>">
+    <button type="submit">Supprimer ingrédient</button>
+  </form>
+
     </li>
   <?php endforeach; ?>
 </ul>
 
 <h2>Ajouter un ingrédient</h2>
-<form action="index.php?controleur=Ingredient&action=ajouter" method="post">
-  <input type="hidden" name="recette_id" value="<?= $recette['id'] ?>">
-  <label>Nom</label>
-  <input type="text" name="nom" required>
-  <label>Détail</label>
-  <input type="text" name="liste_ingredients">
-  <button type="submit">Ajouter</button>
+<form action="<?= Configuration::get("racineWeb") ?>index.php?controleur=AdminIngredients&action=nouveau" method="post">
+    <input type="hidden" name="recette_id" value="<?= $recette['id'] ?>">
+    <label>Nom</label>
+    <input type="text" name="nom" required>
+    <label>Détail</label>
+    <input type="text" name="liste_ingredients">
+    <button type="submit">Ajouter</button>
 </form>
+
+
 
 <hr>
 
