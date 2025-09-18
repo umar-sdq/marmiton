@@ -32,7 +32,7 @@
         </div>
 
         <footer id="piedMarmiton">
-            Blog réalisé avec PHP, HTML et CSS.
+            Site Marmiton réalisé avec PHP, HTML et CSS.
             <br>
             Par Umar, Charbel et Ashank.
         </footer>

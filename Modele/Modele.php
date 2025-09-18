@@ -1,4 +1,3 @@
-// Modele.php
 <?php
 
 /**
