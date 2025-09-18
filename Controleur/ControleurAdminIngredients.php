@@ -19,7 +19,7 @@ class ControleurAdminIngredients extends ControleurAdmin {
 // Affiche la liste de tous les articles du blog
     public function index() {
         $ingredient = $this->ingredient->getIngredients();
-        $this->genererVue(['ingredients' => $ingredients]);
+        $this->genererVue(['ingredients' => $ingredient]);
     }
 
 // Affiche les détails sur un article
