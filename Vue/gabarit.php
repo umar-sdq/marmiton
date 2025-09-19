@@ -21,6 +21,8 @@
     <div id="global">
 
         <?= $contenu ?>
+        <a href="index.php?controleur=Apropos&action=index">À propos</a>
+
     </div>
 
     <footer id="piedMarmiton">
