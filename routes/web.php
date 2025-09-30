@@ -1,18 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UtilisateurController;
+use App\Http\Controllers\RecetteController;
+use App\Http\Controllers\IngredientController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
+// Page d’accueil
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Exemple de page statique
+Route::get('/apropos', function () {
+    return view('apropos');
+});
+
+// Création des routes avec resources
+Route::resources([
+    'utilisateurs' => UtilisateurController::class,
+    'recettes'     => RecetteController::class,
+    'ingredients'  => IngredientController::class,
+]);
+
+Route::get('/recettes/autocomplete', [RecetteController::class, 'autocomplete'])
+    ->name('recettes.autocomplete');
