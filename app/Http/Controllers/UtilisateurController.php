@@ -20,20 +20,33 @@ class UtilisateurController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'nom'          => 'required|string|max:255',
-            'identifiant'  => 'required|string|max:255|unique:utilisateurs,identifiant',
-            'mot_de_passe' => 'required|string|min:4',
-        ]);
+{
+    $messages = [
+        'nom.required' => 'Le nom est obligatoire.',
+        'identifiant.required' => 'L’identifiant est obligatoire.',
+        'identifiant.unique' => 'Cet identifiant est déjà utilisé.',
+        'mot_de_passe.required' => 'Le mot de passe est obligatoire.',
+        'mot_de_passe.min' => 'Le mot de passe doit contenir au moins 4 caractères.',
+    ];
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('warning', 'Tous les champs sont requis');
-        }
+    $validated = $request->validate([
+        'nom'          => 'required|string|max:255',
+        'identifiant'  => 'required|string|max:255|unique:utilisateurs,identifiant',
+        'mot_de_passe' => 'required|string|min:4',
+    ], $messages);
 
-        Utilisateur::create($request->all());
-        return redirect()->route('utilisateurs.index')->with('success', 'Utilisateur ajouté avec succès');
-    }
+    $utilisateur = new \App\Models\Utilisateur();
+    $utilisateur->nom = $validated['nom'];
+    $utilisateur->identifiant = $validated['identifiant'];
+    $utilisateur->mot_de_passe = bcrypt($validated['mot_de_passe']);
+    $utilisateur->save();
+
+    return redirect()->route('utilisateurs.index')
+                     ->with('success', 'Utilisateur ajouté avec succès.');
+}
+
+
+
 
     public function show($id)
     {

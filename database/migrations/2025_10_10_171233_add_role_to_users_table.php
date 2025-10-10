@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhotoToRecettes extends Migration
+class AddRoleToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddPhotoToRecettes extends Migration
      */
     public function up()
     {
-        Schema::table('recettes', function (Blueprint $table) {
-            $table->string('photo')->nullable();
-        });
+    Schema::table('utilisateurs', function (Blueprint $table) {
+    $table->string('role')->default('USER')->after('mot_de_passe');
+});
+
     }
 
     /**
@@ -25,8 +26,9 @@ class AddPhotoToRecettes extends Migration
      */
     public function down()
     {
-        Schema::table('recettes', function (Blueprint $table) {
-        $table->dropColumn('photo');
+        Schema::table('utilisateurs', function (Blueprint $table) {
+                   $table->dropColumn('role');
+
         });
     }
 }

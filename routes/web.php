@@ -30,3 +30,11 @@ Route::resources([
 
 Route::get('/recettes/autocomplete', [RecetteController::class, 'autocomplete'])
     ->name('recettes.autocomplete');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/recettes', [RecetteController::class, 'index'])->name('admin.recettes.index');
+});

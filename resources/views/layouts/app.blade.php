@@ -37,6 +37,8 @@
                 <a class="navbar-brand" href="{{ url('/recettes') }}">Recettes</a>
                 <a class="navbar-brand" href="{{ url('/ingredients') }}">Ingrédients</a>
                 <a class="navbar-brand" href="{{ url('/utilisateurs') }}">Utilisateurs</a>
+                <a class="navbar-brand" href="{{ url('/utilisateurs') }}">Connexion</a>
+                <a class="navbar-brand" href="{{ url('/utilisateurs') }}">Déconnexion</a>
             </div>
         </nav>
 
