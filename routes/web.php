@@ -38,3 +38,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/recettes', [RecetteController::class, 'index'])->name('admin.recettes.index');
 });
+Auth::routes(['verify' => true]);
