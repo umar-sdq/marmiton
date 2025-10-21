@@ -11,6 +11,7 @@
     <div class="buttons mb-3">
         <a href="{{ route('recettes.edit', $recette->id) }}" class="btn btn-info">{{ __('general.edit') }}</a>
         <a href="{{ route('recettes.index') }}" class="btn btn-info">{{ __('general.back_to_list') }}</a>
+        <a href="{{ route('ingredients.index') }}" class="btn btn-info">{{ __('add ingredient') }}</a>
         <form action="{{ route('recettes.destroy', $recette->id) }}" method="POST" style="display:inline">
             @csrf
             @method('DELETE')
