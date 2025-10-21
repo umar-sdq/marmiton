@@ -39,3 +39,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/recettes', [RecetteController::class, 'index'])->name('admin.recettes.index');
 });
 Auth::routes(['verify' => true]);
+
+Route::post('/language-switch', function (Illuminate\Http\Request $request) {
+    $locale = $request->input('locale');
+    if (in_array($locale, ['fr', 'en', 'es'])) {
+        Session::put('locale', $locale);
+        App::setLocale($locale);
+    }
+    return back();
+})->name('language.switch');

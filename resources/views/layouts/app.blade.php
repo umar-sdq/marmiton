@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
 
@@ -23,31 +22,37 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name') }}
                 </a>
-                <a class="navbar-brand" href="{{ url('/apropos') }}">À propos</a>
-                <a class="navbar-brand" href="{{ url('/recettes') }}">Recettes</a>
-                <a class="navbar-brand" href="{{ url('/ingredients') }}">Ingrédients</a>
+                <a class="navbar-brand" href="{{ url('/apropos') }}">{{ __('general.about') }}</a>
+                <a class="navbar-brand" href="{{ url('/recettes') }}">{{ __('general.recipes') }}</a>
+                <a class="navbar-brand" href="{{ url('/ingredients') }}">{{ __('general.ingredients') }}</a>
 
-                {{-- ✅ Section connexion / déconnexion --}}
                 <div class="ms-auto d-flex align-items-center">
+                    <form action="{{ route('language.switch') }}" method="POST" class="me-3">
+                        @csrf
+                        <select name="locale" onchange="this.form.submit()" class="form-select form-select-sm">
+                            <option value="fr" {{ app()->getLocale() == 'fr' ? 'selected' : '' }}>🇫🇷 FR</option>
+                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇬🇧 EN</option>
+                            <option value="es" {{ app()->getLocale() == 'es' ? 'selected' : '' }}>🇪🇸 ES</option>
+                        </select>
+                    </form>
+
                     @guest
-                        {{-- Utilisateur non connecté --}}
-                        <a class="navbar-brand" href="{{ route('login') }}">Connexion</a>
-                        <a class="navbar-brand" href="{{ route('register') }}">Inscription</a>
+                        <a class="navbar-brand" href="{{ route('login') }}">{{ __('general.login') }}</a>
+                        <a class="navbar-brand" href="{{ route('register') }}">{{ __('general.register') }}</a>
                     @else
-                        {{-- Utilisateur connecté --}}
                         @if (Auth::user()->role === 'ADMIN')
                             <a class="navbar-brand text-danger" href="{{ route('admin.recettes.index') }}">
-                                Espace Admin
+                                {{ __('general.admin_area') }}
                             </a>
                         @endif
 
                         <span class="navbar-text me-3">
-                            Bonjour, {{ Auth::user()->nom }} ({{ Auth::user()->role }})
+                            {{ __('general.hello') }}, {{ Auth::user()->nom }} ({{ Auth::user()->role }})
                         </span>
 
                         <a class="navbar-brand text-muted" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Déconnexion
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('general.logout') }}
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
