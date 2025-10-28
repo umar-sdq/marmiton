@@ -41,7 +41,6 @@ return [
     'search_recipe' => 'Buscar receta',
     'type_recipe' => 'Escribe el título de una receta',
 
-    // Ingredients
     'ingredient_list' => 'Lista de ingredientes',
     'add_ingredient' => 'Agregar ingrediente',
     'edit_ingredient' => 'Editar ingrediente',
@@ -49,7 +48,6 @@ return [
     'save' => 'Guardar',
     'back' => 'Volver',
 
-    // Users
     'users_list' => 'Lista de usuarios',
     'add_user' => 'Agregar usuario',
     'edit_user' => 'Editar usuario',
@@ -57,7 +55,6 @@ return [
     'enter_username' => 'Ingresa un identificador',
     'enter_password' => 'Ingresa una contraseña',
 
-    // Common
     'created_at' => 'Creado el',
     'warning' => 'Advertencia',
     'success' => 'Éxito',
@@ -66,4 +63,14 @@ return [
     'description' => 'descripción',
     'title' => 'título',
     'image' => 'imagen',
+
+    'search_recipe_placeholder' => 'Buscar una receta...',
+'hello' => 'Hola',
+'ingredients_list' => 'Lista de ingredientes',
+'recipe' => 'Receta',
+'admin_area' => 'Zona de administración',
+'logout' => 'Cerrar sesión',
+'recipes_list' => 'Lista de recetas',
+
+
 ];

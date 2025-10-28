@@ -18,7 +18,6 @@
 @endif
 
 <div class="mb-4">
-    <label for="search" class="form-label fw-bold">{{ __('general.recipe_search') }} :</label>
     <input type="text" id="search" class="form-control" placeholder="{{ __('general.search_recipe_placeholder') }}">
 </div>
 
@@ -27,12 +26,8 @@
         @foreach ($recettes as $recette)
             <div class="col-md-4">
                 <div class="card card-body mb-4 shadow-sm">
-
                     @if ($recette->photo)
-                        <img src="{{ asset('images/' . $recette->photo) }}"
-                             alt="{{ __('general.image_of') }} {{ $recette->titre }}"
-                             class="img-fluid rounded mb-3"
-                             style="max-height: 200px; object-fit: cover;">
+                        <img src="{{ asset('images/' . $recette->photo) }}" alt="{{ $recette->titre }}" class="img-fluid rounded mb-3" style="max-height: 200px; object-fit: cover;">
                     @else
                         <p class="text-muted fst-italic">{{ __('general.no_image') }}</p>
                     @endif
@@ -41,21 +36,24 @@
                     <p>{{ Str::limit($recette->description, 100) }}</p>
                     <p><strong>{{ __('general.author') }} :</strong> {{ $recette->utilisateur->nom ?? __('general.unknown') }}</p>
 
-                    <a href="{{ route('recettes.show', $recette->id) }}" class="btn btn-outline-primary">
-                        {{ __('general.read_more') }}
-                    </a>
+                    <a href="{{ route('recettes.show', $recette->id) }}" class="btn btn-outline-primary">{{ __('general.read_more') }}</a>
                 </div>
             </div>
         @endforeach
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 <script>
 $(function() {
     $("#search").autocomplete({
         source: "{{ route('recettes.autocomplete') }}",
+        minLength: 1,
         select: function(event, ui) {
-            $('#search').val(ui.item.value);
+            window.location.href = "/recettes/" + ui.item.id;
         }
     });
 });

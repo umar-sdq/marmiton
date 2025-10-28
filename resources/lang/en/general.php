@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // Navbar
     'about' => 'About',
     'recipes' => 'Recipes',
     'ingredients' => 'Ingredients',
@@ -12,7 +11,6 @@ return [
     'admin_space' => 'Admin Area',
     'welcome' => 'Welcome to Marmiton',
 
-    // Auth
     'email' => 'Email Address',
     'password' => 'Password',
     'confirm_password' => 'Confirm Password',
@@ -23,7 +21,6 @@ return [
     'name' => 'Name',
     'username' => 'Username',
 
-    // Recipes
     'recipe_list' => 'Recipe List',
     'add_recipe' => 'Add Recipe',
     'edit_recipe' => 'Edit Recipe',
@@ -41,7 +38,6 @@ return [
     'search_recipe' => 'Recipe Search',
     'type_recipe' => 'Type a recipe title',
 
-    // Ingredients
     'ingredient_list' => 'Ingredients List',
     'add_ingredient' => 'Add Ingredient',
     'edit_ingredient' => 'Edit Ingredient',
@@ -49,7 +45,6 @@ return [
     'save' => 'Save',
     'back' => 'Back',
 
-    // Users
     'users_list' => 'List of Users',
     'add_user' => 'Add User',
     'edit_user' => 'Edit User',
@@ -57,7 +52,6 @@ return [
     'enter_username' => 'Enter username',
     'enter_password' => 'Enter password',
 
-    // Common
     'created_at' => 'Created at',
     'warning' => 'Warning',
     'success' => 'Success',
@@ -66,6 +60,15 @@ return [
     'description' => 'description',
     'title' => 'title',
     'image' => 'image',
+'search_recipe_placeholder' => 'Search for a recipe...',
+'hello' => 'Hello',
+'ingredients_list' => 'Ingredients list',
+'recipe' => 'Recipe',
+'admin_area' => 'Admin area',
+'logout' => 'Logout',
+'recipes_list' => 'Recipes list',
+
+
 
 
 

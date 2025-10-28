@@ -1,0 +1,88 @@
+/* === PAGE À PROPOS – WARM MODERN LOOK === */
+
+body {
+  background: linear-gradient(135deg, #fffaf5, #f5ede4);
+  font-family: "Poppins", Arial, sans-serif;
+  color: #3d2f26;
+}
+
+.apropos-page {
+  max-width: 950px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(106, 80, 56, 0.08);
+  transition: all 0.3s ease;
+}
+
+.apropos-page:hover {
+  transform: translateY(-2px);
+}
+
+.apropos-page hr {
+  height: 2px;
+  background: linear-gradient(to right, #d9a679, #c97e5b);
+  border: none;
+  border-radius: 2px;
+  margin: 1rem 0 2rem;
+}
+
+.apropos-page h1 {
+  font-size: 2.3rem;
+  text-align: center;
+  color: #8a5a3b;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.apropos-page h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #b06b41;
+  margin: 1.75rem 0 0.75rem;
+}
+
+.apropos-page p {
+  line-height: 1.6;
+  color: #4a3a31;
+  margin-bottom: 0.75rem;
+}
+
+.apropos-page ol,
+.apropos-page ul {
+  margin: 0.5rem 0 1.25rem 1.5rem;
+  color: #4a3a31;
+}
+
+.apropos-page code {
+  font-family: Consolas, monospace;
+  background: #fff2e2;
+  color: #5a3a20;
+  border-radius: 5px;
+  padding: 0.15rem 0.45rem;
+}
+
+.apropos-page .db-image {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 12px;
+  border: 2px solid #f3e1d3;
+  box-shadow: 0 4px 12px rgba(180, 134, 91, 0.25);
+  margin: 1.25rem auto;
+}
+
+.apropos-page a {
+  color: #b06b41;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.apropos-page a:hover {
+  border-bottom: 1px solid #b06b41;
+  color: #875c3d;
+}

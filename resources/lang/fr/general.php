@@ -66,4 +66,13 @@ return [
       'description' => 'description',
     'title' => 'titre',
     'image' => 'image',
+
+    'search_recipe_placeholder' => 'Rechercher une recette...',
+'hello' => 'Bonjour',
+'ingredients_list' => 'Liste des ingrédients',
+'recipe' => 'Recette',
+'admin_area' => 'Espace administrateur',
+'logout' => 'Déconnexion',
+'recipes_list' => 'Liste des recettes',
+
 ];

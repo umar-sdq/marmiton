@@ -22,7 +22,6 @@ class RecetteController extends Controller
 
     public function create()
     {
-        // L'admin peut choisir l'auteur, l'utilisateur normal non
         $utilisateurs = auth()->user()->role === 'ADMIN'
             ? Utilisateur::all()
             : collect([auth()->user()]);
@@ -128,6 +127,7 @@ class RecetteController extends Controller
 
         return redirect()->route('recettes.index')->with('success', 'Recette modifiée avec succès');
     }
+
     public function destroy($id)
     {
         $recette = Recette::findOrFail($id);
@@ -143,9 +143,16 @@ class RecetteController extends Controller
 
     public function autocomplete(Request $request)
     {
-        $term = $request->get('term');
-        $recettes = Recette::where('titre', 'LIKE', '%' . $term . '%')->pluck('titre');
+        $term = $request->get('term', '');
+        $recettes = Recette::where('titre', 'LIKE', '%' . $term . '%')
+            ->take(10)
+            ->get(['id', 'titre']);
 
-        return response()->json($recettes);
+        $results = [];
+        foreach ($recettes as $recette) {
+            $results[] = ['id' => $recette->id, 'value' => $recette->titre];
+        }
+
+        return response()->json($results);
     }
 }
