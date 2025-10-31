@@ -24,9 +24,12 @@ class IngredientControllerTest extends TestCase
     public function test_creation_ingredient_valide()
     {
         $user = Utilisateur::factory()->create();
-        $recette = Recette::factory()->create();
+        $recette = Recette::factory()->create([
+            'titre' => 'Recette test',
+            'description' => 'description test',
+        ]);
         $this->actingAs($user);
-        
+
         $response = $this->post('/ingredients', [
             'nom' => 'Tomate',
             'liste_ingredients' => 'Sel, poivre',

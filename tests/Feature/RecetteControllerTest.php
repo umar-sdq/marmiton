@@ -26,7 +26,7 @@ class RecetteControllerTest extends TestCase
         $this->actingAs($user);
         $data = [
             'titre' => 'Clafoutis',
-            'description' => 'Step 1: ...'
+            'description' => 'Step 1: ...',
         ];
         $response = $this->post('/recettes', $data);
         $response->assertRedirect('/recettes');

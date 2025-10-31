@@ -26,7 +26,8 @@ class UtilisateurControllerTest extends TestCase
         $data = [
             'nom' => 'Bob',
             'identifiant' => 'bob2025',
-            'mot_de_passe' => '1234'
+            'email' => 'bob@example.com',  
+            'mot_de_passe' => bcrypt('1234'), 
         ];
         $response = $this->post('/utilisateurs', $data);
         $response->assertRedirect('/utilisateurs');
