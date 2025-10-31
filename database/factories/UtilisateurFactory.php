@@ -2,26 +2,26 @@
 
 namespace Database\Factories;
 
+use App\Models\Utilisateur;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+class UtilisateurFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
+    protected $model = Utilisateur::class;
+
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'nom' => $this->faker->name(),
+            'identifiant' => $this->faker->unique()->userName(),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'mot_de_passe' => bcrypt('password'), // mot de passe haché
+            'role' => 'ADMIN',
+            'remember_token' => Str::random(10), // si tu utilises ce champ
         ];
     }
+
 
     /**
      * Indicate that the model's email address should be unverified.
