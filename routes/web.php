@@ -40,3 +40,6 @@ Route::post('/language-switch', function (Illuminate\Http\Request $request) {
     }
     return back();
 })->name('language.switch');
+Route::get('{any}', function () {
+    return view('monopage');
+})->where('any', '.*');
