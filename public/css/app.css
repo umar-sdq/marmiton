@@ -1,0 +1,107 @@
+/* === HEADER WARM MODERN CAFÉ STYLE === */
+
+.custom-navbar {
+  background: linear-gradient(90deg, #d9a679, #c97e5b);
+  padding: 0.9rem 1.25rem;
+  font-family: "Poppins", sans-serif;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-brand {
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.45rem;
+  letter-spacing: 0.5px;
+  transition: 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #fff3e0 !important;
+}
+
+.nav-link {
+  color: #fffef8 !important;
+  font-weight: 500;
+  margin-right: 1rem;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background-color: #fff3e0;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.language-form select {
+  background-color: #fff8f1;
+  border: 1px solid #e3c6a4;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+  color: #5e4633;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.language-form select:hover {
+  background-color: #faefe5;
+}
+
+.nav-btn {
+  background: #fff8f1;
+  color: #875c3d;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  background: #f1e0d2;
+  color: #5b3e28;
+  transform: translateY(-2px);
+}
+
+.nav-btn.alt {
+  background: transparent;
+  border: 2px solid #fff3e0;
+  color: #fff;
+}
+
+.nav-btn.alt:hover {
+  background: #fff8f1;
+  color: #875c3d;
+}
+
+.nav-btn.admin {
+  background: #fdf3e7;
+  color: #704c33;
+}
+
+.user-info {
+  color: #fff;
+  font-size: 0.95rem;
+  text-align: right;
+  line-height: 1.2;
+}
+
+.nav-btn.logout {
+  background: #f6eee7;
+  color: #724b2b;
+}
+
+.nav-btn.logout:hover {
+  background: #e4d2c2;
+}

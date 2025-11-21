@@ -1,7 +1,75 @@
 <?php
+
 return [
-    'Liste des articles' => 'Recipes list',
-    'Ajouter un article' => 'Add a recipe',
-    'Savoir' => 'Learn more',
+    'about' => 'About',
+    'recipes' => 'Recipes',
+    'ingredients' => 'Ingredients',
+    'users' => 'Users',
+    'login' => 'Login',
+    'register' => 'Register',
+    'logout' => 'Logout',
+    'admin_space' => 'Admin Area',
     'welcome' => 'Welcome to Marmiton',
+
+    'email' => 'Email Address',
+    'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
+    'forgot_password' => 'Forgot Your Password?',
+    'remember_me' => 'Remember Me',
+    'login_button' => 'Log In',
+    'register_button' => 'Sign Up',
+    'name' => 'Name',
+    'username' => 'Username',
+
+    'recipe_list' => 'Recipe List',
+    'add_recipe' => 'Add Recipe',
+    'edit_recipe' => 'Edit Recipe',
+    'recipe_details' => 'Recipe Details',
+    'author' => 'Author',
+    'unknown' => 'Unknown',
+    'no_image' => 'No image available',
+    'image_of' => 'Image of',
+    'read_more' => 'Read More',
+    'create_recipe' => 'Publish',
+    'back_to_list' => 'Back to List',
+    'update' => 'Update',
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
+    'search_recipe' => 'Recipe Search',
+    'type_recipe' => 'Type a recipe title',
+
+    'ingredient_list' => 'Ingredients List',
+    'add_ingredient' => 'Add Ingredient',
+    'edit_ingredient' => 'Edit Ingredient',
+    'details' => 'Details',
+    'save' => 'Save',
+    'back' => 'Back',
+
+    'users_list' => 'List of Users',
+    'add_user' => 'Add User',
+    'edit_user' => 'Edit User',
+    'enter_name' => 'Enter name',
+    'enter_username' => 'Enter username',
+    'enter_password' => 'Enter password',
+
+    'created_at' => 'Created at',
+    'warning' => 'Warning',
+    'success' => 'Success',
+    'edit' => 'Edit',
+
+    'description' => 'description',
+    'title' => 'title',
+    'image' => 'image',
+'search_recipe_placeholder' => 'Search for a recipe...',
+'hello' => 'Hello',
+'ingredients_list' => 'Ingredients list',
+'recipe' => 'Recipe',
+'admin_area' => 'Admin area',
+'logout' => 'Logout',
+'recipes_list' => 'Recipes list',
+
+
+
+
+
 ];

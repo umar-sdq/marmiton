@@ -4,10 +4,12 @@
 
 <div class="row">
     <div class="col-lg-10">
-        <h2>Liste des ingrédients</h2>
+        <h2>{{ __('general.ingredients_list') }}</h2>
     </div>
     <div class="col-lg-2">
-        <a class="btn btn-success" href="{{ route('ingredients.create') }}">Ajouter un ingrédient</a>
+        <a class="btn btn-success" href="{{ route('ingredients.create') }}">
+            {{ __('general.add_ingredient') }}
+        </a>
     </div>
 </div>
 
@@ -24,8 +26,10 @@
                 <div class="card card-body mb-3">
                     <h2>{{ $ingredient->nom }}</h2>
                     <p>{{ $ingredient->liste_ingredients }}</p>
-                    <p><strong>Recette :</strong> {{ $ingredient->recette->titre ?? '—' }}</p>
-                    <a href="{{ route('ingredients.show', $ingredient->id) }}" class="btn btn-outline-primary">En savoir plus</a>
+                    <p><strong>{{ __('general.recipe') }} :</strong> {{ $ingredient->recette->titre ?? '—' }}</p>
+                    <a href="{{ route('ingredients.show', $ingredient->id) }}" class="btn btn-outline-primary">
+                        {{ __('general.read_more') }}
+                    </a>
                 </div>
             </div>
         @endforeach

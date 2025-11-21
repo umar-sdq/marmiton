@@ -26,7 +26,7 @@ class AddPhotoToRecettes extends Migration
     public function down()
     {
         Schema::table('recettes', function (Blueprint $table) {
-            //
+        $table->dropColumn('photo');
         });
     }
 }

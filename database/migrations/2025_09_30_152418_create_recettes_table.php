@@ -19,6 +19,8 @@ class CreateRecettesTable extends Migration
         $table->text('description')->nullable();
         $table->foreignId('utilisateur_id')->nullable()->constrained('utilisateurs')->onDelete('set null');
         $table->timestamps();
+        $table->string('photo')->nullable();
+
     });
 }
 
