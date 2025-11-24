@@ -10,38 +10,50 @@ export default function RecettesCreate() {
     const [photo, setPhoto] = useState(null);
     const [utilisateurs, setUtilisateurs] = useState([]);
     const [utilisateurId, setUtilisateurId] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        axios.get("/utilisateurs")
+        axios.get("/api/utilisateurs")
             .then(res => setUtilisateurs(res.data))
             .catch(err => console.error(err));
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
 
-        let formData = new FormData();
-        formData.append("titre", titre);
-        formData.append("description", description);
-        formData.append("utilisateur_id", utilisateurId);
+        try {
+            let formData = new FormData();
+            formData.append("titre", titre);
+            formData.append("description", description);
+            formData.append("utilisateur_id", utilisateurId);
+            if (photo) formData.append("photo", photo);
 
-        if (photo) {
-            formData.append("photo", photo);
+            const token = localStorage.getItem("token");
+
+            await axios.post("/api/recettes", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            });
+
+            history.push("/recettes");
+
+        } catch (err) {
+            setError("Erreur lors de l'ajout de la recette");
         }
-
-        axios.post("/recettes", formData)
-            .then(() => history.push("/recettes"))
-            .catch(err => console.error(err));
     };
 
     return (
         <div className="container mt-4">
-
             <h1>Ajouter une recette</h1>
 
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {error && <div className="alert alert-danger">{error}</div>}
 
-                <div className="mb-3">
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+                
+                <div className="form-group mb-3">
                     <label>Titre :</label>
                     <input
                         type="text"
@@ -50,7 +62,7 @@ export default function RecettesCreate() {
                     />
                 </div>
 
-                <div className="mb-3">
+                <div className="form-group mb-3">
                     <label>Description :</label>
                     <textarea
                         className="form-control"
@@ -59,7 +71,7 @@ export default function RecettesCreate() {
                     ></textarea>
                 </div>
 
-                <div className="mb-3">
+                <div className="form-group mb-3">
                     <label>Image :</label>
                     <input
                         type="file"
@@ -68,23 +80,24 @@ export default function RecettesCreate() {
                     />
                 </div>
 
-                <div className="mb-3">
+                <div className="form-group mb-3">
                     <label>Auteur :</label>
                     <select
                         className="form-control"
                         onChange={(e) => setUtilisateurId(e.target.value)}
                     >
-                        <option value="">Choisir...</option>
-                        {utilisateurs.map(u => (
-                            <option key={u.id} value={u.id}>{u.nom}</option>
+                        <option>Choisir...</option>
+                        {utilisateurs.map((u) => (
+                            <option key={u.id} value={u.id}>
+                                {u.nom}
+                            </option>
                         ))}
                     </select>
                 </div>
 
-                <button className="btn btn-primary">Publier</button>
-                <Link to="/recettes" className="btn btn-secondary ms-2">Retour</Link>
+                <button type="submit" className="btn btn-primary">Publier</button>
+                <Link to="/recettes" className="btn btn-info ms-2">Retour</Link>
             </form>
-
         </div>
     );
 }

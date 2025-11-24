@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUtilisateursTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('utilisateurs', function (Blueprint $table) {
@@ -19,15 +14,20 @@ class CreateUtilisateursTable extends Migration
             $table->string('identifiant')->unique();
             $table->string('email')->unique();
             $table->string('mot_de_passe');
-            $table->timestamps(); // created_at + updated_at
+
+            // REQUIRED FOR AUTH
+            $table->timestamp('email_verified_at')->nullable();
+
+            // REQUIRED FOR ROLES
+            $table->string('role')->default('USER');
+
+            // Laravel auth requirement
+            $table->rememberToken();
+
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('utilisateurs');

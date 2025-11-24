@@ -21,18 +21,17 @@ export default function Navbar() {
             <div className="collapse navbar-collapse">
                 <ul className="navbar-nav ms-auto">
 
-                    {/* PUBLIC LINKS */}
                     {!auth.isLoggedin && (
-                        <>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/login">Connexion</a>
-                            </li>
+    <>
+        <li className="nav-item">
+            <Link className="nav-link" to="/login">Connexion</Link>
+        </li>
 
-                            <li className="nav-item">
-                                <a className="nav-link" href="/register">Inscription</a>
-                            </li>
-                        </>
-                    )}
+        <li className="nav-item">
+            <Link className="nav-link" to="/register">Inscription</Link>
+        </li>
+    </>
+)}
 
                     {/* LOGGED-IN LINKS */}
                     {auth.isLoggedin && (
