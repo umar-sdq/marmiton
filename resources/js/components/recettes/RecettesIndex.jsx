@@ -49,7 +49,7 @@ export default function RecettesIndex() {
                         <div className="card card-body mb-4 shadow-sm">
                             {recette.photo ? (
                                 <img
-                                    src={`/images/${recette.photo}`}
+                                    src={`http://127.0.0.1:8000/storage/${recette.photo}`}
                                     alt={recette.titre}
                                     className="img-fluid rounded mb-3"
                                     style={{ maxHeight: "200px", objectFit: "cover" }}

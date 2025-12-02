@@ -1,47 +1,38 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios"; 
+import React, { useState } from "react";
+import axios from "../../axios"; 
 import { Link, useHistory } from "react-router-dom";
 
 export default function RecettesCreate() {
+    console.log("BASE URL =", axios.defaults.baseURL);
     const history = useHistory();
 
     const [titre, setTitre] = useState("");
     const [description, setDescription] = useState("");
     const [photo, setPhoto] = useState(null);
-    const [utilisateurs, setUtilisateurs] = useState([]);
-    const [utilisateurId, setUtilisateurId] = useState("");
     const [error, setError] = useState("");
-
-    useEffect(() => {
-        axios
-            .get("http://127.0.0.1:8000/api/utilisateurs")
-            .then(res => setUtilisateurs(res.data.data ?? res.data))
-            .catch(err => console.error(err));
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
+            const token = localStorage.getItem("token");
+
             let formData = new FormData();
             formData.append("titre", titre);
             formData.append("description", description);
-            formData.append("utilisateur_id", utilisateurId);
             if (photo) formData.append("photo", photo);
+            console.log("AXIOS BASE =", axios.defaults.baseURL);
+            console.log("URL POST =", axios.defaults.baseURL + "recettes");
 
-            const token = localStorage.getItem("token");
+            await axios.post("recettes", formData, {
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json"
+    }
+});
 
-            await axios.post(
-                "http://127.0.0.1:8000/api/recettes",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
-            );
+
 
             history.push("/recettes");
 
@@ -65,6 +56,7 @@ export default function RecettesCreate() {
                         type="text"
                         className="form-control"
                         onChange={(e) => setTitre(e.target.value)}
+                        required
                     />
                 </div>
 
@@ -74,6 +66,7 @@ export default function RecettesCreate() {
                         className="form-control"
                         rows="5"
                         onChange={(e) => setDescription(e.target.value)}
+                        required
                     ></textarea>
                 </div>
 
@@ -86,22 +79,7 @@ export default function RecettesCreate() {
                     />
                 </div>
 
-                <div className="form-group mb-3">
-                    <label>Auteur :</label>
-                    <select
-                        className="form-control"
-                        onChange={(e) => setUtilisateurId(e.target.value)}
-                    >
-                        <option>Choisir...</option>
-                        {utilisateurs.map((u) => (
-                            <option key={u.id} value={u.id}>
-                                {u.nom}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <button type="submit" className="btn btn-primary">Publier</button>
+                <button type="submit" className="btn btn-primary">Pubier</button>
                 <Link to="/recettes" className="btn btn-info ms-2">Retour</Link>
             </form>
         </div>

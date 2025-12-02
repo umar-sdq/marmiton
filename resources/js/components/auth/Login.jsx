@@ -15,26 +15,33 @@ export default function Login() {
         setError("");
 
         try {
-
             const res = await axios.post(
-                "http://127.0.0.1:8000/api/login",     
+                "http://127.0.0.1:8000/api/login",
                 {
                     identifiant: identifiant,
-                    mot_de_passe: password,             
+                    mot_de_passe: password,
                     remember: remember,
+                },
+                {
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                    }
                 }
             );
 
-            if (res.data.success === true) {
-                if (res.data.data?.token) {
-                    localStorage.setItem("token", res.data.data.token);
-                }
+            if (res.data.success && res.data.data?.token) {
+                // Sauvegarde du token
+                localStorage.setItem("token", res.data.data.token);
+
+                // Redirection
                 history.push("/");
             } else {
                 setError(res.data.message || "Identifiants invalides");
             }
 
         } catch (err) {
+            console.error("Login error:", err);
             setError("Identifiants invalides");
         }
     };
@@ -42,19 +49,21 @@ export default function Login() {
     return (
         <div className="container mt-4">
             <h1>Connexion</h1>
-            <h1>Connexion (DEBUG)</h1>
-
 
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleSubmit}>
-
+                
                 <div className="mb-3">
                     <label>Identifiant :</label>
                     <input
                         type="text"
                         className="form-control"
-                        onChange={(e) => setIdentifiant(e.target.value)}
+                        value={identifiant}
+                        onChange={(e) => {
+                            setIdentifiant(e.target.value);
+                            setError("");
+                        }}
                         required
                     />
                 </div>
@@ -64,7 +73,11 @@ export default function Login() {
                     <input
                         type="password"
                         className="form-control"
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            setError("");
+                        }}
                         required
                     />
                 </div>

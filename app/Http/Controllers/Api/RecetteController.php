@@ -18,12 +18,6 @@ class RecetteController extends BaseController
     public function store(Request $request)
 {
 
-    dd([
-        'all' => $request->all(),
-        'photo' => $request->file('photo'),
-        'hasFile(photo)' => $request->hasFile('photo'),
-        'headers' => $request->headers->all(),
-    ]);
 
     $validator = Validator::make($request->all(), [
         'titre' => 'required|string|max:255',
@@ -72,4 +66,15 @@ class RecetteController extends BaseController
         $recette->delete();
         return $this->sendResponse([], 'Recette supprimée avec succès.');
     }
+    public function show($id)
+{
+    $recette = Recette::with('ingredients', 'utilisateur')->find($id);
+
+    if (!$recette) {
+        return response()->json(['message' => 'Recette non trouvée'], 404);
+    }
+
+    return response()->json($recette);
+}
+
 }

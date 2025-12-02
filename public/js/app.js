@@ -62381,10 +62381,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults).baseURL = "http://127.0.0.1:8000/api/";
-var token = localStorage.getItem("token");
-if (token) {
-  (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults).headers.common["Authorization"] = "Bearer ".concat(token);
-}
+axios__WEBPACK_IMPORTED_MODULE_0___default().interceptors.request.use(function (config) {
+  var token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = "Bearer ".concat(token);
+  }
+  return config;
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((axios__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
@@ -62879,7 +62882,7 @@ function Login() {
     setError = _useState8[1];
   var handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(e) {
-      var res, _res$data$data, _t;
+      var _res$data$data, res, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
@@ -62891,13 +62894,19 @@ function Login() {
               identifiant: identifiant,
               mot_de_passe: password,
               remember: remember
+            }, {
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+              }
             });
           case 2:
             res = _context.v;
-            if (res.data.success === true) {
-              if ((_res$data$data = res.data.data) !== null && _res$data$data !== void 0 && _res$data$data.token) {
-                localStorage.setItem("token", res.data.data.token);
-              }
+            if (res.data.success && (_res$data$data = res.data.data) !== null && _res$data$data !== void 0 && _res$data$data.token) {
+              // Sauvegarde du token
+              localStorage.setItem("token", res.data.data.token);
+
+              // Redirection
               history.push("/");
             } else {
               setError(res.data.message || "Identifiants invalides");
@@ -62907,6 +62916,7 @@ function Login() {
           case 3:
             _context.p = 3;
             _t = _context.v;
+            console.error("Login error:", _t);
             setError("Identifiants invalides");
           case 4:
             return _context.a(2);
@@ -62921,8 +62931,6 @@ function Login() {
     className: "container mt-4",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       children: "Connexion"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
-      children: "Connexion (DEBUG)"
     }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "alert alert-danger",
       children: error
@@ -62935,8 +62943,10 @@ function Login() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           type: "text",
           className: "form-control",
+          value: identifiant,
           onChange: function onChange(e) {
-            return setIdentifiant(e.target.value);
+            setIdentifiant(e.target.value);
+            setError("");
           },
           required: true
         })]
@@ -62947,8 +62957,10 @@ function Login() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           type: "password",
           className: "form-control",
+          value: password,
           onChange: function onChange(e) {
-            return setPassword(e.target.value);
+            setPassword(e.target.value);
+            setError("");
           },
           required: true
         })]
@@ -63722,8 +63734,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ RecettesCreate)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../axios */ "./resources/js/axios.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -63742,6 +63753,7 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
 function RecettesCreate() {
+  console.log("BASE URL =", _axios__WEBPACK_IMPORTED_MODULE_1__["default"].defaults.baseURL);
   var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useHistory)();
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
     _useState2 = _slicedToArray(_useState, 2),
@@ -63755,46 +63767,31 @@ function RecettesCreate() {
     _useState6 = _slicedToArray(_useState5, 2),
     photo = _useState6[0],
     setPhoto = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
     _useState8 = _slicedToArray(_useState7, 2),
-    utilisateurs = _useState8[0],
-    setUtilisateurs = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
-    _useState0 = _slicedToArray(_useState9, 2),
-    utilisateurId = _useState0[0],
-    setUtilisateurId = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
-    _useState10 = _slicedToArray(_useState1, 2),
-    error = _useState10[0],
-    setError = _useState10[1];
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/api/utilisateurs").then(function (res) {
-      var _res$data$data;
-      return setUtilisateurs((_res$data$data = res.data.data) !== null && _res$data$data !== void 0 ? _res$data$data : res.data);
-    })["catch"](function (err) {
-      return console.error(err);
-    });
-  }, []);
+    error = _useState8[0],
+    setError = _useState8[1];
   var handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(e) {
-      var formData, token, _t;
+      var token, formData, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
             e.preventDefault();
             setError("");
             _context.p = 1;
+            token = localStorage.getItem("token");
             formData = new FormData();
             formData.append("titre", titre);
             formData.append("description", description);
-            formData.append("utilisateur_id", utilisateurId);
             if (photo) formData.append("photo", photo);
-            token = localStorage.getItem("token");
+            console.log("AXIOS BASE =", _axios__WEBPACK_IMPORTED_MODULE_1__["default"].defaults.baseURL);
+            console.log("URL POST =", _axios__WEBPACK_IMPORTED_MODULE_1__["default"].defaults.baseURL + "recettes");
             _context.n = 2;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/api/recettes", formData, {
+            return _axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("recettes", formData, {
               headers: {
-                Authorization: "Bearer ".concat(token),
-                "Content-Type": "multipart/form-data"
+                Authorization: "Bearer ".concat(localStorage.getItem("token")),
+                Accept: "application/json"
               }
             });
           case 2:
@@ -63834,7 +63831,8 @@ function RecettesCreate() {
           className: "form-control",
           onChange: function onChange(e) {
             return setTitre(e.target.value);
-          }
+          },
+          required: true
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "form-group mb-3",
@@ -63845,7 +63843,8 @@ function RecettesCreate() {
           rows: "5",
           onChange: function onChange(e) {
             return setDescription(e.target.value);
-          }
+          },
+          required: true
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "form-group mb-3",
@@ -63858,28 +63857,10 @@ function RecettesCreate() {
             return setPhoto(e.target.files[0]);
           }
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        className: "form-group mb-3",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-          children: "Auteur :"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
-          className: "form-control",
-          onChange: function onChange(e) {
-            return setUtilisateurId(e.target.value);
-          },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-            children: "Choisir..."
-          }), utilisateurs.map(function (u) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-              value: u.id,
-              children: u.nom
-            }, u.id);
-          })]
-        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
         type: "submit",
         className: "btn btn-primary",
-        children: "Publier"
+        children: "Pubier"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
         to: "/recettes",
         className: "btn btn-info ms-2",
@@ -64094,7 +64075,7 @@ function RecettesIndex() {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "card card-body mb-4 shadow-sm",
             children: [recette.photo ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-              src: "/images/".concat(recette.photo),
+              src: "http://127.0.0.1:8000/storage/".concat(recette.photo),
               alt: recette.titre,
               className: "img-fluid rounded mb-3",
               style: {
@@ -64180,7 +64161,7 @@ function RecettesShow() {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       children: recette.titre
     }), recette.photo && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-      src: "/images/".concat(recette.photo),
+      src: "http://127.0.0.1:8000/storage/".concat(recette.photo),
       alt: recette.titre,
       className: "img-fluid rounded mb-4"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
