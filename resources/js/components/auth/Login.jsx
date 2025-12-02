@@ -15,19 +15,21 @@ export default function Login() {
         setError("");
 
         try {
-            await axios.get("/sanctum/csrf-cookie");
 
-            const res = await axios.post("/api/login", {
-                identifiant: identifiant,
-                password: password,
-                remember: remember,
-            });
+            const res = await axios.post(
+                "http://127.0.0.1:8000/api/login",     
+                {
+                    identifiant: identifiant,
+                    mot_de_passe: password,             
+                    remember: remember,
+                }
+            );
 
             if (res.data.success === true) {
-                if (res.data.token) {
-                    localStorage.setItem("token", res.data.token);
+                if (res.data.data?.token) {
+                    localStorage.setItem("token", res.data.data.token);
                 }
-                history.push("/"); 
+                history.push("/");
             } else {
                 setError(res.data.message || "Identifiants invalides");
             }
@@ -40,6 +42,8 @@ export default function Login() {
     return (
         <div className="container mt-4">
             <h1>Connexion</h1>
+            <h1>Connexion (DEBUG)</h1>
+
 
             {error && <div className="alert alert-danger">{error}</div>}
 
@@ -82,10 +86,7 @@ export default function Login() {
                     Se connecter
                 </button>
 
-                <Link
-                    to="/password/reset"
-                    className="btn btn-link ms-2"
-                >
+                <Link to="/password/reset" className="btn btn-link ms-2">
                     Mot de passe oublié ?
                 </Link>
             </form>

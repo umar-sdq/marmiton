@@ -1,10 +1,16 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 export default function Navbar() {
     const history = useHistory();
-    const auth = window.user_auth_data;
+    console.log("TOKEN IN NAVBAR:", localStorage.getItem("token"));
+
+    const auth = {
+    isLoggedin: !!localStorage.getItem("token"),
+    user: {} 
+};
+
 
     const handleLogout = () => {
         axios.post("/logout").then(() => {

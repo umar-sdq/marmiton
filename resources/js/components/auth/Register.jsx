@@ -19,15 +19,18 @@ export default function Register() {
         setError("");
 
         try {
-            await axios.get("/sanctum/csrf-cookie");
+            // --- CSRF supprimé (inutile) ---
 
-           const res = await axios.post(`${API}/api/register`, {
-                nom: nom,
-                identifiant: identifiant,
-                email: email,
-                mot_de_passe: motDePasse,
-                confirmation_mot_de_passe: confirmationMotDePasse,
-            });
+            const res = await axios.post(
+                "http://127.0.0.1:8000/api/register",
+                {
+                    nom: nom,
+                    identifiant: identifiant,
+                    email: email,
+                    mot_de_passe: motDePasse,
+                    confirmation_mot_de_passe: confirmationMotDePasse,
+                }
+            );
 
             if (res.data.success) {
                 history.push("/login");

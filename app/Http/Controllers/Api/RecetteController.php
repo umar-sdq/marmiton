@@ -17,6 +17,14 @@ class RecetteController extends BaseController
 
     public function store(Request $request)
 {
+
+    dd([
+        'all' => $request->all(),
+        'photo' => $request->file('photo'),
+        'hasFile(photo)' => $request->hasFile('photo'),
+        'headers' => $request->headers->all(),
+    ]);
+
     $validator = Validator::make($request->all(), [
         'titre' => 'required|string|max:255',
         'description' => 'required|string',

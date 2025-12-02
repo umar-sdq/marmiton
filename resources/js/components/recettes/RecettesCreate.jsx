@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "axios"; 
 import { Link, useHistory } from "react-router-dom";
 
 export default function RecettesCreate() {
@@ -13,8 +13,9 @@ export default function RecettesCreate() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        axios.get("/api/utilisateurs")
-            .then(res => setUtilisateurs(res.data))
+        axios
+            .get("http://127.0.0.1:8000/api/utilisateurs")
+            .then(res => setUtilisateurs(res.data.data ?? res.data))
             .catch(err => console.error(err));
     }, []);
 
@@ -31,16 +32,21 @@ export default function RecettesCreate() {
 
             const token = localStorage.getItem("token");
 
-            await axios.post("/api/recettes", formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
+            await axios.post(
+                "http://127.0.0.1:8000/api/recettes",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
                 }
-            });
+            );
 
             history.push("/recettes");
 
         } catch (err) {
+            console.error(err);
             setError("Erreur lors de l'ajout de la recette");
         }
     };

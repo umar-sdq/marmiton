@@ -62366,6 +62366,29 @@ react_dom__WEBPACK_IMPORTED_MODULE_2__.render(/*#__PURE__*/(0,react_jsx_runtime_
 
 /***/ }),
 
+/***/ "./resources/js/axios.js":
+/*!*******************************!*\
+  !*** ./resources/js/axios.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+(axios__WEBPACK_IMPORTED_MODULE_0___default().defaults).baseURL = "http://127.0.0.1:8000/api/";
+var token = localStorage.getItem("token");
+if (token) {
+  (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults).headers.common["Authorization"] = "Bearer ".concat(token);
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((axios__WEBPACK_IMPORTED_MODULE_0___default()));
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -62856,7 +62879,7 @@ function Login() {
     setError = _useState8[1];
   var handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(e) {
-      var res, _t;
+      var res, _res$data$data, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.p = _context.n) {
           case 0:
@@ -62864,34 +62887,31 @@ function Login() {
             setError("");
             _context.p = 1;
             _context.n = 2;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/sanctum/csrf-cookie");
-          case 2:
-            _context.n = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/login", {
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/api/login", {
               identifiant: identifiant,
-              password: password,
+              mot_de_passe: password,
               remember: remember
             });
-          case 3:
+          case 2:
             res = _context.v;
             if (res.data.success === true) {
-              if (res.data.token) {
-                localStorage.setItem("token", res.data.token);
+              if ((_res$data$data = res.data.data) !== null && _res$data$data !== void 0 && _res$data$data.token) {
+                localStorage.setItem("token", res.data.data.token);
               }
               history.push("/");
             } else {
               setError(res.data.message || "Identifiants invalides");
             }
-            _context.n = 5;
+            _context.n = 4;
             break;
-          case 4:
-            _context.p = 4;
+          case 3:
+            _context.p = 3;
             _t = _context.v;
             setError("Identifiants invalides");
-          case 5:
+          case 4:
             return _context.a(2);
         }
-      }, _callee, null, [[1, 4]]);
+      }, _callee, null, [[1, 3]]);
     }));
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
@@ -62901,6 +62921,8 @@ function Login() {
     className: "container mt-4",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       children: "Connexion"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+      children: "Connexion (DEBUG)"
     }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "alert alert-danger",
       children: error
@@ -63028,33 +63050,30 @@ function Register() {
             setError("");
             _context.p = 1;
             _context.n = 2;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/sanctum/csrf-cookie");
-          case 2:
-            _context.n = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("".concat(API, "/api/register"), {
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/api/register", {
               nom: nom,
               identifiant: identifiant,
               email: email,
               mot_de_passe: motDePasse,
               confirmation_mot_de_passe: confirmationMotDePasse
             });
-          case 3:
+          case 2:
             res = _context.v;
             if (res.data.success) {
               history.push("/login");
             } else {
               setError("Erreur lors de l'inscription");
             }
-            _context.n = 5;
+            _context.n = 4;
             break;
-          case 4:
-            _context.p = 4;
+          case 3:
+            _context.p = 3;
             _t = _context.v;
             setError("Erreur lors de l'inscription");
-          case 5:
+          case 4:
             return _context.a(2);
         }
-      }, _callee, null, [[1, 4]]);
+      }, _callee, null, [[1, 3]]);
     }));
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
@@ -63601,8 +63620,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../axios */ "./resources/js/axios.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -63611,9 +63629,13 @@ __webpack_require__.r(__webpack_exports__);
 function Navbar() {
   var _auth$user;
   var history = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useHistory)();
-  var auth = window.user_auth_data;
+  console.log("TOKEN IN NAVBAR:", localStorage.getItem("token"));
+  var auth = {
+    isLoggedin: !!localStorage.getItem("token"),
+    user: {}
+  };
   var handleLogout = function handleLogout() {
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post("/logout").then(function () {
+    _axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/logout").then(function () {
       window.location.href = "/login";
     });
   };
@@ -63746,8 +63768,9 @@ function RecettesCreate() {
     error = _useState10[0],
     setError = _useState10[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/utilisateurs").then(function (res) {
-      return setUtilisateurs(res.data);
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/api/utilisateurs").then(function (res) {
+      var _res$data$data;
+      return setUtilisateurs((_res$data$data = res.data.data) !== null && _res$data$data !== void 0 ? _res$data$data : res.data);
     })["catch"](function (err) {
       return console.error(err);
     });
@@ -63768,7 +63791,7 @@ function RecettesCreate() {
             if (photo) formData.append("photo", photo);
             token = localStorage.getItem("token");
             _context.n = 2;
-            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/recettes", formData, {
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/api/recettes", formData, {
               headers: {
                 Authorization: "Bearer ".concat(token),
                 "Content-Type": "multipart/form-data"
@@ -63781,6 +63804,7 @@ function RecettesCreate() {
           case 3:
             _context.p = 3;
             _t = _context.v;
+            console.error(_t);
             setError("Erreur lors de l'ajout de la recette");
           case 4:
             return _context.a(2);
@@ -64007,8 +64031,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ RecettesIndex)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../axios */ "./resources/js/axios.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
@@ -64027,12 +64050,30 @@ function RecettesIndex() {
     recettes = _useState2[0],
     setRecettes = _useState2[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/recettes").then(function (res) {
-      return setRecettes(res.data);
+    _axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/recettes").then(function (res) {
+      var _res$data$data;
+      console.log("RAW:", res.data);
+      var recettesArray = (_res$data$data = res.data.data) !== null && _res$data$data !== void 0 ? _res$data$data : res.data;
+      if (Array.isArray(recettesArray)) {
+        setRecettes(recettesArray);
+      } else {
+        console.warn("Not an array:", recettesArray);
+        setRecettes([]);
+      }
     })["catch"](function (err) {
-      return console.error(err);
+      console.error("API ERROR:", err);
+      if (err.response) {
+        console.log("STATUS:", err.response.status);
+        console.log("DATA:", err.response.data);
+      }
     });
   }, []);
+  if (!Array.isArray(recettes)) {
+    console.log("❌ recettes n'est pas un array:", recettes);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+      children: "Chargement\u2026"
+    });
+  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "container mt-4",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -64047,7 +64088,7 @@ function RecettesIndex() {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "row mt-4",
       children: recettes.map(function (recette) {
-        var _recette$description, _recette$utilisateur;
+        var _recette$description;
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "col-md-4",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -64068,10 +64109,6 @@ function RecettesIndex() {
               children: recette.titre
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
               children: [(_recette$description = recette.description) === null || _recette$description === void 0 ? void 0 : _recette$description.substring(0, 100), "..."]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("strong", {
-                children: "Auteur : "
-              }), ((_recette$utilisateur = recette.utilisateur) === null || _recette$utilisateur === void 0 ? void 0 : _recette$utilisateur.nom) || "Inconnu"]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
               className: "btn btn-outline-primary",
               to: "/recettes/".concat(recette.id),
@@ -64098,8 +64135,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ RecettesShow)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../axios */ "./resources/js/axios.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -64123,14 +64159,14 @@ function RecettesShow() {
     recette = _useState2[0],
     setRecette = _useState2[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/recettes/".concat(id)).then(function (res) {
+    _axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/recettes/".concat(id)).then(function (res) {
       return setRecette(res.data);
     })["catch"](function (err) {
       return console.error(err);
     });
   }, [id]);
   var handleDelete = function handleDelete() {
-    axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/recettes/".concat(id)).then(function () {
+    _axios__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"]("/recettes/".concat(id)).then(function () {
       return history.push("/recettes");
     })["catch"](function (err) {
       return console.error(err);

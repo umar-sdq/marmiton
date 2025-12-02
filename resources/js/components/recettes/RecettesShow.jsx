@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import { Link, useParams, useHistory } from "react-router-dom";
 
 export default function RecettesShow() {
@@ -9,7 +9,9 @@ export default function RecettesShow() {
 
     useEffect(() => {
         axios.get(`/recettes/${id}`)
+        
             .then(res => setRecette(res.data))
+            
             .catch(err => console.error(err));
     }, [id]);
 

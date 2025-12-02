@@ -7,7 +7,9 @@
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
+
 <body>
+
 <script>
     window.user_auth_data = @json([
         'isLoggedin' => Auth::check(),
@@ -15,9 +17,8 @@
     ]);
 </script>
 
-    <div id="app"></div>
+<div id="app"></div>
 
-    <script src="{{ mix('js/app.js') }}"></script>
-
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
