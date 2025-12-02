@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 export default function Login() {
     const history = useHistory();
@@ -9,6 +11,8 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
     const [error, setError] = useState("");
+    const { login } = useContext(AuthContext);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,7 +36,7 @@ export default function Login() {
 
             if (res.data.success && res.data.data?.token) {
                 // Sauvegarde du token
-                localStorage.setItem("token", res.data.data.token);
+                login(res.data.data.token);
 
                 // Redirection
                 history.push("/");

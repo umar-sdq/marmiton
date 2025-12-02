@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import { Link, useParams, useHistory } from "react-router-dom";
 
 export default function IngredientsEdit() {
@@ -12,14 +12,18 @@ export default function IngredientsEdit() {
     const [recettes, setRecettes] = useState([]);
 
     useEffect(() => {
-        axios.get(`/ingredients/${id}`).then(res => {
-            setNom(res.data.nom);
-            setDetails(res.data.liste_ingredients);
-            setRecetteId(res.data.recette_id);
-        });
+    axios.get(`ingredients/${id}`).then(res => {
+        setNom(res.data.nom);
+        setDetails(res.data.liste_ingredients);
+        setRecetteId(res.data.recette_id);
+    });
 
-        axios.get("/recettes").then(res => setRecettes(res.data));
-    }, [id]);
+    axios.get("recettes").then(res => {
+        const data = res.data.data ?? res.data;
+        setRecettes(data);
+    });
+}, [id]);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();

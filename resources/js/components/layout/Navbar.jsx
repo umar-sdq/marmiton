@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "../../axios";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
     const history = useHistory();
-    console.log("TOKEN IN NAVBAR:", localStorage.getItem("token"));
-
-    const auth = {
-    isLoggedin: !!localStorage.getItem("token"),
-    user: {} 
-};
-
+    const { isLoggedIn, logout } = useContext(AuthContext);
 
     const handleLogout = () => {
-        axios.post("/logout").then(() => {
-            window.location.href = "/login";
-        });
+        axios.post("logout")
+            .then(() => {
+                logout();        
+                history.push("/login");
+            })
+            .catch(() => {
+                logout();
+                history.push("/login");
+            });
     };
 
     return (
@@ -27,20 +28,19 @@ export default function Navbar() {
             <div className="collapse navbar-collapse">
                 <ul className="navbar-nav ms-auto">
 
-                    {!auth.isLoggedin && (
-    <>
-        <li className="nav-item">
-            <Link className="nav-link" to="/login">Connexion</Link>
-        </li>
+                    {!isLoggedIn && (
+                        <>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/login">Connexion</Link>
+                            </li>
 
-        <li className="nav-item">
-            <Link className="nav-link" to="/register">Inscription</Link>
-        </li>
-    </>
-)}
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/register">Inscription</Link>
+                            </li>
+                        </>
+                    )}
 
-                    {/* LOGGED-IN LINKS */}
-                    {auth.isLoggedin && (
+                    {isLoggedIn && (
                         <>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/home">Dashboard</Link>
@@ -53,13 +53,6 @@ export default function Navbar() {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/ingredients">Ingrédients</Link>
                             </li>
-
-                            {/* ADMIN */}
-                            {auth.user?.role === "ADMIN" && (
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/admin/recettes">Admin</Link>
-                                </li>
-                            )}
 
                             <li className="nav-item">
                                 <button

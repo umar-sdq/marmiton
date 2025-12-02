@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../../axios";
 
 export default function IngredientsIndex() {
     const [ingredients, setIngredients] = useState([]);
 
-    useEffect(() => {
-        axios.get("/ingredients")
-            .then(res => setIngredients(res.data))
-            .catch(err => console.error(err));
-    }, []);
+  useEffect(() => {
+    axios.get("/ingredients")
+        .then(res => {
+            console.log("ING:", res.data);
+            setIngredients(res.data);
+        })
+        .catch(err => console.error(err));
+}, []);
+
+
 
     return (
         <div className="container mt-4">
