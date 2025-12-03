@@ -12,7 +12,6 @@ export default function Register() {
     const [confirmationMotDePasse, setConfirmationMotDePasse] = useState("");
     const [error, setError] = useState("");
 
-    // 🔥 Pour éviter "grecaptcha undefined"
     useEffect(() => {
         const interval = setInterval(() => {
             if (window.grecaptcha) {
@@ -22,38 +21,40 @@ export default function Register() {
         }, 500);
     }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-        const captchaToken = window.grecaptcha.getResponse();
-        if (!captchaToken) {
-            setError("Veuillez valider le captcha");
-            return;
-        }
+    const captchaToken = window.grecaptcha.getResponse();
 
-        try {
-            const res = await axios.post("/register", {
-                nom,
-                identifiant,
-                email,
-                mot_de_passe: motDePasse,
-                confirmation_mot_de_passe: confirmationMotDePasse,
-                "g-recaptcha-response": captchaToken
-            });
+    if (!captchaToken || captchaToken.length < 10) {
+        setError("Veuillez confirmer que vous n’êtes pas un robot avant de continuer.");
+        return;
+    }
 
-            window.grecaptcha.reset();
+    try {
+        const res = await axios.post("/register", {
+            nom,
+            identifiant,
+            email,
+            mot_de_passe: motDePasse,
+            confirmation_mot_de_passe: confirmationMotDePasse,
+            "g-recaptcha-response": captchaToken
+        });
 
-            if (res.data.success) {
-                history.push("/login");
-            } else {
-                setError("Erreur lors de l'inscription");
-            }
+        window.grecaptcha.reset();
 
-        } catch (err) {
+        if (res.data.success) {
+            history.push("/login");
+        } else {
             setError("Erreur lors de l'inscription");
         }
-    };
+
+    } catch (err) {
+        setError("Erreur lors de l'inscription");
+    }
+};
+
 
     return (
         <div className="container mt-4">

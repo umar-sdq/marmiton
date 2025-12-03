@@ -34,6 +34,14 @@ Route::get('utilisateurs', function () {
 
 /*
 |--------------------------------------------------------------------------
+| AUTOCOMPLETE (PUBLIC)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('recettes/autocomplete', [RecetteController::class, 'autocomplete']);
+
+/*
+|--------------------------------------------------------------------------
 | RECETTES
 | ADMIN = voir toutes
 | USER = voir ses recettes

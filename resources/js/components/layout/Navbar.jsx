@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "../../axios";
 import { AuthContext } from "../context/AuthContext";
-
+import SearchBar from "../SearchPage/SearchPage";
 export default function Navbar() {
     const history = useHistory();
     const { isLoggedIn, role, logout } = useContext(AuthContext);
@@ -57,6 +57,12 @@ export default function Navbar() {
         <Link className="nav-link" to="/admin/recettes">Admin Panel</Link>
     </li>
 )}
+<li className="nav-item">
+    <Link className="nav-link" to="/search">Recherche</Link>
+</li>
+
+
+
 
 
                             <li className="nav-item">

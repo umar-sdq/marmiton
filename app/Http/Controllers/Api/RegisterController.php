@@ -31,6 +31,9 @@ public function register(Request $request)
     if ($validator->fails()) {
         return $this->sendError('Erreur de validation.', $validator->errors());
     }
+    \Log::info('env test = ' . env('APP_ENV'));
+\Log::info('recaptcha secret = ' . env('RECAPTCHA_SECRET_KEY'));
+
 
     $captcha = Http::asForm()->post(
         'https://www.google.com/recaptcha/api/siteverify',
@@ -55,6 +58,12 @@ public function register(Request $request)
 
     return $this->sendResponse($success, "Compte créé !");
 }
+
+    /**
+     * autocomplete 
+     * Recherche de recettes par titre pour l'autocomplétion
+     */
+
 
 
 

@@ -12,7 +12,7 @@ export default function IngredientsCreate() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        axios.get("/api/recettes")
+        axios.get("/recettes")
             .then(res => setRecettes(res.data))
             .catch(err => console.error(err));
     }, []);
@@ -24,7 +24,7 @@ export default function IngredientsCreate() {
         try {
             const token = localStorage.getItem("token");
 
-            await axios.post("/api/ingredients", {
+            await axios.post("/ingredients", {
                 nom: nom,
                 liste_ingredients: details,
                 recette_id: recetteId

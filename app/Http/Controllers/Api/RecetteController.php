@@ -25,7 +25,18 @@ class RecetteController extends BaseController
         }
 
         return response()->json($recettes);
-    }
+    }/**
+     * autocomplete
+     */
+public function autocomplete(Request $request)
+{
+    $search = $request->search;
+
+    return Recette::where('titre', 'LIKE', "%$search%")
+        ->select('id', 'titre')
+        ->limit(5)
+        ->get();
+}
 
     /**
      * CRÉATION DE RECETTE

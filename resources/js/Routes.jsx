@@ -26,6 +26,8 @@ import UtilisateursEdit from "./components/utilisateurs/UtilisateursEdit";
 
 import AdminRecettes from "./components/admin/AdminRecettes";
 
+import SearchPage from "./components/SearchPage/SearchPage";
+
 export default function Router() {
     return (
         <Switch>
@@ -52,6 +54,9 @@ export default function Router() {
             <Route exact path="/utilisateurs/create" component={UtilisateursCreate} />
             <Route exact path="/utilisateurs/:id" component={UtilisateursShow} />
             <Route exact path="/utilisateurs/:id/edit" component={UtilisateursEdit} />
+
+            <Route exact path="/search" component={SearchPage} />
+
 
             <AdminRoute exact path="/admin/recettes" component={AdminRecettes} />
 
