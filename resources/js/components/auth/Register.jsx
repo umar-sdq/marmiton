@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import axios from "../../axios"; 
 import { Link, useHistory } from "react-router-dom";
 
 export default function Register() {
@@ -10,27 +10,39 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [motDePasse, setMotDePasse] = useState("");
     const [confirmationMotDePasse, setConfirmationMotDePasse] = useState("");
-    const API = "http://127.0.0.1:8000";
-
     const [error, setError] = useState("");
+
+    // 🔥 Pour éviter "grecaptcha undefined"
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (window.grecaptcha) {
+                window.grecaptcha.ready(() => {});
+                clearInterval(interval);
+            }
+        }, 500);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
-        try {
-            // --- CSRF supprimé (inutile) ---
+        const captchaToken = window.grecaptcha.getResponse();
+        if (!captchaToken) {
+            setError("Veuillez valider le captcha");
+            return;
+        }
 
-            const res = await axios.post(
-                "http://127.0.0.1:8000/api/register",
-                {
-                    nom: nom,
-                    identifiant: identifiant,
-                    email: email,
-                    mot_de_passe: motDePasse,
-                    confirmation_mot_de_passe: confirmationMotDePasse,
-                }
-            );
+        try {
+            const res = await axios.post("/register", {
+                nom,
+                identifiant,
+                email,
+                mot_de_passe: motDePasse,
+                confirmation_mot_de_passe: confirmationMotDePasse,
+                "g-recaptcha-response": captchaToken
+            });
+
+            window.grecaptcha.reset();
 
             if (res.data.success) {
                 history.push("/login");
@@ -54,51 +66,40 @@ export default function Register() {
 
                 <div className="mb-3">
                     <label>Nom :</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        onChange={(e) => setNom(e.target.value)}
-                    />
+                    <input type="text" className="form-control"
+                        onChange={(e) => setNom(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
                     <label>Identifiant :</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        onChange={(e) => setIdentifiant(e.target.value)}
-                    />
+                    <input type="text" className="form-control"
+                        onChange={(e) => setIdentifiant(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
                     <label>Email :</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <input type="email" className="form-control"
+                        onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
                     <label>Mot de passe :</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        onChange={(e) => setMotDePasse(e.target.value)}
-                    />
+                    <input type="password" className="form-control"
+                        onChange={(e) => setMotDePasse(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
                     <label>Confirmer le mot de passe :</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        onChange={(e) => setConfirmationMotDePasse(e.target.value)}
-                    />
+                    <input type="password" className="form-control"
+                        onChange={(e) => setConfirmationMotDePasse(e.target.value)} />
                 </div>
 
-                <button className="btn btn-primary">S'inscrire</button>
-                <Link to="/login" className="btn btn-secondary ms-2">
+                <div className="g-recaptcha"
+                     data-sitekey="6LfWWh8sAAAAAN7CcmDfp9hzRfsxWjx-vmDQwswz">
+                </div>
+
+                <button className="btn btn-primary mt-3">S'inscrire</button>
+                <Link to="/login" className="btn btn-secondary ms-2 mt-3">
                     Déjà un compte ?
                 </Link>
             </form>

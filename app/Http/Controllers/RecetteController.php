@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Validator;
 
 class RecetteController extends Controller
 {
-    public function index()
-    {
-        if (auth()->user()->role === "ADMIN") {
-            $recettes = Recette::all();
-        } else {
-            $recettes = Recette::where('utilisateur_id', auth()->id())->get();
-        }
-
-        return view('recettes.index', compact('recettes'));
+   public function index()
+{
+    if (auth()->user()->role === 'ADMIN') {
+        $recettes = Recette::with(['ingredients', 'utilisateur'])->get();
+    } else {
+        $recettes = Recette::where('utilisateur_id', auth()->id())
+            ->with(['ingredients', 'utilisateur'])
+            ->get();
     }
+
+    return response()->json($recettes);
+}
+
 
     public function create()
     {
@@ -66,15 +69,22 @@ class RecetteController extends Controller
     }
 
     public function show($id)
-    {
-        $recette = Recette::findOrFail($id);
+{
+    $query = Recette::with(['ingredients', 'utilisateur'])->where('id', $id);
 
-        if (auth()->user()->role !== 'ADMIN' && $recette->utilisateur_id !== auth()->id()) {
-            abort(403, 'Accès refusé');
-        }
-
-        return view('recettes.show', compact('recette'));
+    if (auth()->user()->role !== 'ADMIN') {
+        $query->where('utilisateur_id', auth()->id());
     }
+
+    $recette = $query->first();
+
+    if (!$recette) {
+        return response()->json(['error' => 'Accès interdit'], 403);
+    }
+
+    return response()->json($recette);
+}
+
 
     public function edit($id)
     {
@@ -92,54 +102,39 @@ class RecetteController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $recette = Recette::findOrFail($id);
+{
+    $recette = Recette::find($id);
 
-        if (auth()->user()->role !== 'ADMIN' && $recette->utilisateur_id !== auth()->id()) {
-            abort(403, 'Accès refusé');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'titre' => 'required|string|max:255',
-            'description' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with('warning', 'Tous les champs sont requis');
-        }
-
-        $recette->titre = $request->titre;
-        $recette->description = $request->description;
-
-        if (auth()->user()->role === 'ADMIN' && $request->has('utilisateur_id')) {
-            $recette->utilisateur_id = $request->utilisateur_id;
-        }
-
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $name);
-            $recette->photo = $name;
-        }
-
-        $recette->save();
-
-        return redirect()->route('recettes.index')->with('success', 'Recette modifiée avec succès');
+    if (!$recette) {
+        return response()->json(['error' => 'Recette introuvable'], 404);
     }
+
+    if (auth()->user()->role !== 'ADMIN' && $recette->utilisateur_id !== auth()->id()) {
+        return response()->json(['error' => 'Accès interdit'], 403);
+    }
+
+    $recette->update($request->all());
+
+    return $this->sendResponse($recette, 'Recette mise à jour avec succès.');
+}
 
     public function destroy($id)
-    {
-        $recette = Recette::findOrFail($id);
+{
+    $recette = Recette::find($id);
 
-        if (auth()->user()->role !== 'ADMIN' && $recette->utilisateur_id !== auth()->id()) {
-            abort(403, 'Accès refusé');
-        }
-
-        $recette->delete();
-
-        return redirect()->route('recettes.index')->with('success', 'Recette supprimée avec succès');
+    if (!$recette) {
+        return response()->json(['error' => 'Recette introuvable'], 404);
     }
+
+    if (auth()->user()->role !== 'ADMIN' && $recette->utilisateur_id !== auth()->id()) {
+        return response()->json(['error' => 'Accès interdit'], 403);
+    }
+
+    $recette->delete();
+
+    return $this->sendResponse([], 'Recette supprimée avec succès.');
+}
+
 
     public function autocomplete(Request $request)
     {

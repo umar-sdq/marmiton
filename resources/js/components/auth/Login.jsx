@@ -35,12 +35,10 @@ export default function Login() {
             );
 
             if (res.data.success && res.data.data?.token) {
-                // Sauvegarde du token
-                login(res.data.data.token);
-
-                // Redirection
-                history.push("/");
-            } else {
+    login(res.data.data.token, res.data.data.role);  
+    history.push("/");
+}
+else {
                 setError(res.data.message || "Identifiants invalides");
             }
 

@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RegisterController;  
@@ -8,7 +9,7 @@ use App\Models\Utilisateur;
 
 /*
 |--------------------------------------------------------------------------
-| INGREDIENTS (public GET, protected POST/PUT/DELETE)
+| INGREDIENTS
 |--------------------------------------------------------------------------
 */
 
@@ -33,14 +34,15 @@ Route::get('utilisateurs', function () {
 
 /*
 |--------------------------------------------------------------------------
-| RECETTES (public GET, protected POST/PUT/DELETE)
+| RECETTES
+| ADMIN = voir toutes
+| USER = voir ses recettes
 |--------------------------------------------------------------------------
 */
 
-Route::get('recettes', [RecetteController::class, 'index']);
-Route::get('recettes/{id}', [RecetteController::class, 'show']);
-
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('recettes', [RecetteController::class, 'index']);
+    Route::get('recettes/{id}', [RecetteController::class, 'show']);
     Route::post('recettes', [RecetteController::class, 'store']);
     Route::put('recettes/{id}', [RecetteController::class, 'update']);
     Route::delete('recettes/{id}', [RecetteController::class, 'destroy']);
@@ -54,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', function (Request $request) {
         $request->user()->currentAccessToken()->delete();
